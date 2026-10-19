@@ -1,0 +1,6 @@
+{
+  "name": "BOSS",
+  "description": "Business Operations Studio System (BOSS) - Production-grade studio operations, CRM, booking workflows, team roles, finance, and storage tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

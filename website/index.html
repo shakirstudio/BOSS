@@ -1,0 +1,2054 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOSS — Business Operations Studio System | The All-in-One Studio Operating System</title>
+    <meta name="description" content="BOSS (Business Operations Studio System) is the production-grade Android and SaaS operating system for photography studios, wedding filmmakers, and creative agencies. Manage leads, multi-day shoots, editing workflows,Design albums, individual role-based staff access, and GST billing.">
+    <meta name="keywords" content="Photography Studio Management, Wedding Studio CRM, Video Editing Workflow,Album Designs Tracker, Studio Invoicing Software, GST Studio Billing, Android Studio App">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="BOSS — Business Operations Studio System">
+    <meta property="og:description" content="Manage leads, gear checklists, post-production pipelines,Albums Design , and GST billing from one unified mobile-first studio platform.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=1200&q=80">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        },
+                        amberAccent: '#f59e0b',
+                        emeraldAccent: '#10b981',
+                        darkbg: '#080C14',
+                        darksurface: '#0F172A',
+                        darkcard: '#1E293B',
+                        darkborder: '#334155'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glassmorphism {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+        .glass-card:hover {
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 10px 30px -10px rgba(37, 99, 235, 0.25);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #60A5FA 0%, #38BDF8 50%, #F59E0B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-text-gold {
+            background: linear-gradient(135deg, #FDE68A 0%, #F59E0B 50%, #D97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .phone-frame {
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 40px rgba(59, 130, 246, 0.2);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #080C14;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1E293B;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="bg-[#080C14] text-slate-100 antialiased selection:bg-blue-600 selection:text-white">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-gradient-to-r from-blue-900/60 via-indigo-900/50 to-amber-900/40 border-b border-blue-500/20 text-xs py-2 px-4 text-center font-medium">
+        <span class="inline-flex items-center space-x-2">
+            <span class="bg-blue-500 text-white font-black text-[10px] px-2 py-0.5 rounded-full">v3.0.0 RELEASE</span>
+            <span class="text-slate-300">Announcing BOSS: Business Operations Studio System with Role-Based Individual Staff Access & Canvera Album Workflows!</span>
+            <a href="BOSS-app-debug.apk" download="BOSS-app-debug.apk" class="text-blue-400 hover:text-blue-300 underline font-semibold ml-2">Download Android APK &rarr;</a>
+        </span>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-50 glassmorphism transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-amber-500 flex items-center justify-center font-black text-white text-xl shadow-lg shadow-blue-500/25 tracking-wider">
+                    BOSS
+                </div>
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-blue-500/15 text-blue-400 border border-blue-500/30">STUDIO OS</span>
+                    </div>
+                    <p class="text-[10px] text-slate-400 font-medium hidden sm:block">Business Operations Studio System</p>
+                </div>
+            </div>
+
+            <nav class="hidden lg:flex items-center space-x-7 text-sm font-medium text-slate-300">
+                <a href="#app-tour" class="hover:text-blue-400 transition-colors flex items-center"><i class="fa-solid fa-compass mr-1.5 text-blue-400 text-xs"></i>App Tour</a>
+                <a href="#features" class="hover:text-blue-400 transition-colors">Modules</a>
+                <a href="#roles" class="hover:text-blue-400 transition-colors">Role RBAC</a>
+                <a href="#testimonials" class="hover:text-blue-400 transition-colors">Trusted by Studios</a>
+                <a href="#calculator" class="hover:text-blue-400 transition-colors">Quotation Tool</a>
+                <a href="#pricing" class="hover:text-blue-400 transition-colors">Pricing</a>
+                <a href="#faq" class="hover:text-blue-400 transition-colors">FAQ</a>
+            </nav>
+
+            <div class="flex items-center space-x-3">
+                <a href="login.html" class="inline-flex items-center justify-center px-3.5 py-2 text-sm font-semibold rounded-xl bg-blue-600/15 hover:bg-blue-600/25 text-blue-400 border border-blue-500/30 transition">
+                    <i class="fa-solid fa-right-to-bracket mr-2 text-xs"></i> Sign In / Portal
+                </a>
+                <a href="BOSS-app-debug.apk" download="BOSS-app-debug.apk" class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 transition">
+                    <i class="fa-brands fa-android text-emerald-400 mr-2 text-base"></i> Download APK
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-20 pb-20 md:pt-28 md:pb-28 overflow-hidden">
+        <!-- Ambient Background Glows -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-blue-600/15 rounded-full blur-[140px] pointer-events-none"></div>
+        <div class="absolute top-1/3 left-1/4 w-[400px] h-[400px] bg-amber-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute bottom-10 right-1/4 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[140px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <!-- Pill Tag -->
+            <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-slate-800/80 border border-slate-700/80 mb-8 backdrop-blur shadow-inner">
+                <span class="flex h-2.5 w-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="text-xs font-semibold text-slate-300">Production-Grade Studio Operating System • GST Ready</span>
+            </div>
+
+            <!-- Main Heading -->
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white max-w-5xl mx-auto leading-[1.15]">
+                Run Your Entire Creative Studio with <span class="gradient-text">Unstoppable Velocity</span>
+            </h1>
+
+            <!-- Subtitle -->
+            <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed font-normal">
+                <strong class="text-white font-bold">BOSS (Business Operations Studio System)</strong> powers photography studios, wedding filmmakers, and creative agencies. Manage client inquiries, shoot crew gear checklists, post-production pipelines, Canvera print proofs, and GST billing — with strict role-based access for your team.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="BOSS-app-debug.apk" download="BOSS-app-debug.apk" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-base font-bold rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500 hover:from-blue-500 hover:to-indigo-500 text-white shadow-xl shadow-blue-600/30 transition transform hover:-translate-y-0.5">
+                    <i class="fa-brands fa-android text-emerald-400 mr-3 text-xl"></i> Download BOSS Android App
+                </a>
+                <a href="login.html" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-base font-bold rounded-2xl bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-500/40 shadow-lg shadow-blue-500/10 transition transform hover:-translate-y-0.5">
+                    <i class="fa-solid fa-right-to-bracket mr-2.5 text-lg"></i> Sign In to Web Portal
+                </a>
+                <a href="#roles" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-base font-semibold rounded-2xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+                    <i class="fa-solid fa-users-gear text-amber-400 mr-3 text-lg"></i> See Staff RBAC Demo
+                </a>
+                <a href="https://wa.me/919876543210?text=Hi%2C+I+want+to+book+a+live+demo+of+BOSS+(Business+Operations+Studio+System)" target="_blank" class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-4 text-base font-semibold rounded-2xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 transition">
+                    <i class="fa-brands fa-whatsapp text-emerald-400 mr-2 text-xl"></i> Chat on WhatsApp
+                </a>
+            </div>
+
+            <!-- Quick Metrics Strip -->
+            <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-left">
+                <div class="glass-card p-4 rounded-2xl">
+                    <div class="text-2xl font-black text-white">100% Offline</div>
+                    <div class="text-xs text-slate-400 mt-1">Room SQLite local database</div>
+                </div>
+                <div class="glass-card p-4 rounded-2xl">
+                    <div class="text-2xl font-black text-blue-400">18% GST Auto</div>
+                    <div class="text-xs text-slate-400 mt-1">Official PDF quotes & invoices</div>
+                </div>
+                <div class="glass-card p-4 rounded-2xl">
+                    <div class="text-2xl font-black text-amber-400">Staff RBAC</div>
+                    <div class="text-xs text-slate-400 mt-1">Assigned-work-only visibility</div>
+                </div>
+                <div class="glass-card p-4 rounded-2xl">
+                    <div class="text-2xl font-black text-emerald-400">Albums Ready</div>
+                    <div class="text-xs text-slate-400 mt-1">Album print & proofing tracking</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Full Tour of App Section -->
+    <section id="app-tour" class="py-24 bg-gradient-to-b from-[#080C14] via-slate-950 to-[#080C14] border-t border-slate-800/80 relative overflow-hidden">
+        <div class="absolute top-1/3 right-1/4 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[140px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <span class="text-blue-400 text-xs font-bold uppercase tracking-widest bg-blue-500/10 px-3.5 py-1.5 rounded-full border border-blue-500/25">
+                    End-to-End Walkthrough
+                </span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-4">
+                    Full Tour of the BOSS Studio Platform
+                </h2>
+                <p class="text-slate-400 mt-4 text-base sm:text-lg">
+                    Understand how your studio flows effortlessly from the first inquiry call to final Canvera album delivery and GST billing. Click any step below to explore.
+                </p>
+            </div>
+
+            <!-- Tour Step Navigation Stepper -->
+            <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-12" id="tourStepsNav">
+                <button onclick="switchTourStep(0)" id="tour-btn-0" class="tour-nav-btn active px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-blue-600 text-white shadow-lg shadow-blue-600/30 flex items-center space-x-2 transition">
+                    <span class="w-5 h-5 rounded-full bg-white/20 text-white flex items-center justify-center text-[10px]">1</span>
+                    <span>Inquiry & WhatsApp Quote</span>
+                </button>
+                <button onclick="switchTourStep(1)" id="tour-btn-1" class="tour-nav-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-800 text-slate-300 hover:bg-slate-700 flex items-center space-x-2 transition">
+                    <span class="w-5 h-5 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center text-[10px]">2</span>
+                    <span>Gear Bag Checklist</span>
+                </button>
+                <button onclick="switchTourStep(2)" id="tour-btn-2" class="tour-nav-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-800 text-slate-300 hover:bg-slate-700 flex items-center space-x-2 transition">
+                    <span class="w-5 h-5 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center text-[10px]">3</span>
+                    <span>Editing & Reels Pipeline</span>
+                </button>
+                <button onclick="switchTourStep(3)" id="tour-btn-3" class="tour-nav-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-800 text-slate-300 hover:bg-slate-700 flex items-center space-x-2 transition">
+                    <span class="w-5 h-5 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center text-[10px]">4</span>
+                    <span>Canvera Luxury Albums</span>
+                </button>
+                <button onclick="switchTourStep(4)" id="tour-btn-4" class="tour-nav-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-800 text-slate-300 hover:bg-slate-700 flex items-center space-x-2 transition">
+                    <span class="w-5 h-5 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center text-[10px]">5</span>
+                    <span>Staff RBAC Logins</span>
+                </button>
+                <button onclick="switchTourStep(5)" id="tour-btn-5" class="tour-nav-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-800 text-slate-300 hover:bg-slate-700 flex items-center space-x-2 transition">
+                    <span class="w-5 h-5 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center text-[10px]">6</span>
+                    <span>P&L & GST Invoicing</span>
+                </button>
+            </div>
+
+            <!-- Tour Interactive Container (Left description + Right mobile screen) -->
+            <div class="glass-card rounded-3xl p-6 sm:p-10 border border-slate-700 shadow-2xl">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <!-- Left: Step Details & Explanation -->
+                    <div class="lg:col-span-6 space-y-6">
+                        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 text-xs font-bold" id="tourStepBadge">
+                            STEP 1 OF 6
+                        </div>
+                        <h3 class="text-2xl sm:text-4xl font-extrabold text-white" id="tourStepTitle">
+                            Inquiry Capture & 30-Second GST Quotation
+                        </h3>
+                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed" id="tourStepDescription">
+                            When a client inquires about a 3-day destination wedding, enter the event dates and venue. BOSS automatically calculates line items with 18% GST (CGST 9% + SGST 9%) and the 30% booking advance. Tap one button to generate a branded PDF and launch a pre-filled WhatsApp greeting to close the deal.
+                        </p>
+                        
+                        <div class="space-y-3 border-t border-slate-700/60 pt-4" id="tourStepHighlights">
+                            <div class="flex items-center text-xs sm:text-sm text-slate-200">
+                                <i class="fa-solid fa-circle-check text-emerald-400 mr-2.5 text-base"></i>
+                                <span>Zero math required — automatic 18% GST and milestone breakdown</span>
+                            </div>
+                            <div class="flex items-center text-xs sm:text-sm text-slate-200">
+                                <i class="fa-solid fa-circle-check text-emerald-400 mr-2.5 text-base"></i>
+                                <span>Direct Android Share Sheet integration to WhatsApp, Gmail, or Bluetooth</span>
+                            </div>
+                            <div class="flex items-center text-xs sm:text-sm text-slate-200">
+                                <i class="fa-solid fa-circle-check text-emerald-400 mr-2.5 text-base"></i>
+                                <span>One-tap conversion from Lead to Confirmed Studio Booking</span>
+                            </div>
+                        </div>
+
+                        <!-- Stepper controls -->
+                        <div class="flex items-center space-x-4 pt-4">
+                            <button onclick="prevTourStep()" id="tourPrevBtn" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold border border-slate-700 transition opacity-50 cursor-not-allowed" disabled>
+                                &larr; Previous Step
+                            </button>
+                            <button onclick="nextTourStep()" id="tourNextBtn" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-lg shadow-blue-600/30 transition flex items-center">
+                                <span>Next: Gear Bag Checklist</span>
+                                <i class="fa-solid fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right: Interactive Mobile Mockup -->
+                    <div class="lg:col-span-6 flex justify-center">
+                        <div class="w-full max-w-[360px] bg-slate-900 rounded-[38px] p-3 border-4 border-slate-700 shadow-2xl phone-frame">
+                            <!-- Phone Notch & Speaker -->
+                            <div class="flex justify-between items-center px-4 py-1 mb-2">
+                                <span class="text-[10px] text-slate-400 font-mono">9:41 AM</span>
+                                <div class="w-16 h-3 bg-slate-800 rounded-full"></div>
+                                <div class="flex items-center space-x-1 text-slate-400 text-[10px]">
+                                    <i class="fa-solid fa-wifi text-[9px]"></i>
+                                    <i class="fa-solid fa-battery-full text-[10px]"></i>
+                                </div>
+                            </div>
+
+                            <!-- Phone Top App Bar -->
+                            <div class="bg-slate-950 rounded-2xl p-3 border border-slate-800 mb-3 flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center font-black text-white text-xs">
+                                        BOSS
+                                    </div>
+                                    <div>
+                                        <div class="text-xs font-bold text-white leading-none">BOSS Studios</div>
+                                        <div class="text-[9px] text-blue-400" id="mockupScreenHeader">Commercial Quotation Tool</div>
+                                    </div>
+                                </div>
+                                <span class="text-[9px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold">GST READY</span>
+                            </div>
+
+                            <!-- Dynamic Mockup Screen Body -->
+                            <div class="bg-slate-950 rounded-2xl p-4 border border-slate-800 min-h-[380px] max-h-[420px] overflow-y-auto space-y-3" id="mockupScreenContent">
+                                <!-- Populated dynamically by switchTourStep() -->
+                            </div>
+
+                            <!-- Phone Bottom Nav Bar -->
+                            <div class="mt-3 pt-2 border-t border-slate-800 flex justify-around text-slate-500 text-lg">
+                                <i class="fa-solid fa-house text-blue-400"></i>
+                                <i class="fa-solid fa-calendar-check"></i>
+                                <i class="fa-solid fa-film"></i>
+                                <i class="fa-solid fa-book-open"></i>
+                                <i class="fa-solid fa-user-shield"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Live Preview / Interactive Role Simulator -->
+    <section id="roles" class="py-20 bg-slate-950/70 border-t border-b border-slate-800/80 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <span class="text-blue-400 text-xs font-bold uppercase tracking-widest bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">Exclusive Feature</span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-4">
+                    Individual Role & Responsibility Access
+                </h2>
+                <p class="text-slate-400 mt-4 text-base sm:text-lg">
+                    Never leak studio financials or other team members' workloads. When staff log in, they only see their individually assigned shoots, tasks, and editing pipelines.
+                </p>
+            </div>
+
+            <!-- Role Selector Tabs -->
+            <div class="flex flex-wrap items-center justify-center gap-3 mb-10" id="roleTabs">
+                <button onclick="switchRole('admin')" id="btn-admin" class="role-tab active px-5 py-3 rounded-xl font-bold text-sm bg-blue-600 text-white shadow-lg shadow-blue-600/30 flex items-center space-x-2 transition">
+                    <i class="fa-solid fa-crown text-amber-300"></i>
+                    <span>Studio Owner (Full Access)</span>
+                </button>
+                <button onclick="switchRole('photographer')" id="btn-photographer" class="role-tab px-5 py-3 rounded-xl font-bold text-sm bg-slate-800 text-slate-300 hover:bg-slate-700 flex items-center space-x-2 transition">
+                    <i class="fa-solid fa-camera text-blue-400"></i>
+                    <span>Employee </span>
+                </button>
+                <button onclick="switchRole('editor')" id="btn-editor" class="role-tab px-5 py-3 rounded-xl font-bold text-sm bg-slate-800 text-slate-300 hover:bg-slate-700 flex items-center space-x-2 transition">
+                    <i class="fa-solid fa-wand-magic-sparkles text-emerald-400"></i>
+                    <span>Operations Manager </span>
+                </button>
+                <button onclick="switchRole('album')" id="btn-album" class="role-tab px-5 py-3 rounded-xl font-bold text-sm bg-slate-800 text-slate-300 hover:bg-slate-700 flex items-center space-x-2 transition">
+                    <i class="fa-solid fa-book-open text-purple-400"></i>
+                    <span>Album Specialist </span>
+                </button>
+            </div>
+
+            <!-- Role Display Screen Mockup -->
+            <div class="max-w-4xl mx-auto glass-card rounded-3xl p-6 sm:p-8 border border-slate-700 shadow-2xl relative overflow-hidden" id="roleMockupContainer">
+                <div class="flex items-center justify-between pb-6 border-b border-slate-700">
+                    <div class="flex items-center space-x-3">
+                        <div id="roleAvatar" class="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center text-white text-xl font-black">
+                            👑
+                        </div>
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <h3 id="roleUserName" class="text-xl font-bold text-white">Studio Super Admin (Owner)</h3>
+                                <span id="roleBadge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">ALL ACCESS</span>
+                            </div>
+                            <p id="roleDescription" class="text-xs text-slate-400 mt-0.5">Master P&L, All Financials, Team Permissions, Tenant Workspaces</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-mono px-3 py-1 rounded-md bg-slate-900 border border-slate-700 text-slate-400">BOSS Core RBAC</span>
+                </div>
+
+                <!-- Dynamic Content Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6" id="roleMetrics">
+                    <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
+                        <span class="text-xs text-slate-400 font-medium">Total Studio Revenue</span>
+                        <div class="text-2xl font-black text-emerald-400 mt-1" id="metric1">₹4,20,000</div>
+                        <span class="text-[11px] text-slate-500">Live P&L Velocity</span>
+                    </div>
+                    <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
+                        <span class="text-xs text-slate-400 font-medium">Active Bookings</span>
+                        <div class="text-2xl font-black text-blue-400 mt-1" id="metric2">18 Bookings</div>
+                        <span class="text-[11px] text-slate-500">All shoots studio-wide</span>
+                    </div>
+                    <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
+                        <span class="text-xs text-slate-400 font-medium">Team Roster</span>
+                        <div class="text-2xl font-black text-amber-400 mt-1" id="metric3">6 Staff Members</div>
+                        <span class="text-[11px] text-slate-500">Full RBAC control</span>
+                    </div>
+                </div>
+
+                <!-- Visible Items List Mock -->
+                <div class="mt-6 bg-slate-900/90 rounded-2xl p-5 border border-slate-800">
+                    <h4 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-3" id="visibleListTitle">
+                        Studio Command Overview & High-Level Metrics
+                    </h4>
+                    <div class="space-y-3" id="visibleListItems">
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-slate-800/60 border border-slate-700/50">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                                <div>
+                                    <p class="text-sm font-semibold text-white">3-Day Destination Wedding</p>
+                                    <p class="text-xs text-slate-400">Udaipur Palace • Package: ₹3,50,000 (Advance: ₹1,05,000 paid)</p>
+                                </div>
+                            </div>
+                            <span class="px-2 py-1 text-xs rounded bg-blue-500/20 text-blue-300 font-semibold">Confirmed</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-slate-800/60 border border-slate-700/50">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                                <div>
+                                    <p class="text-sm font-semibold text-white">P&L FY 2024-25 Statement Export Ready</p>
+                                    <p class="text-xs text-slate-400">Net Profit: ₹18.4 Lakhs • GST Liability: ₹3.2 Lakhs</p>
+                                </div>
+                            </div>
+                            <span class="px-2 py-1 text-xs rounded bg-emerald-500/20 text-emerald-300 font-semibold">Audit Ready</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BOSS Modules & Operational Workflows Grid -->
+    <section id="features" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-blue-400 text-xs font-bold uppercase tracking-widest bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">The 6 Core Pillars</span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-4">
+                    BOSS Module & Operational Workflows
+                </h2>
+                <p class="text-slate-400 mt-4 text-base sm:text-lg">
+                    Every operational aspect of your creative business integrated into one cohesive architecture.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Module 1: CRM & Leads -->
+                <div onclick="openModuleModal('crm')" class="glass-card p-8 rounded-3xl transition duration-300 cursor-pointer hover:border-blue-500/60 hover:-translate-y-1 transform group">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-14 h-14 rounded-2xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 text-2xl group-hover:scale-110 transition transform">
+                            <i class="fa-solid fa-funnel-dollar"></i>
+                        </div>
+                        <span class="text-[11px] font-bold px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/25 flex items-center">
+                            <i class="fa-solid fa-bolt mr-1 text-[10px]"></i> Live CRM
+                        </span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition">Leads & Inquiry CRM</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Capture incoming wedding and commercial inquiries. Track lead stages from New, Follow-up, Meeting Done, to Won. One-tap WhatsApp inquiry responses with custom greetings.
+                    </p>
+                    <ul class="text-xs text-slate-300 space-y-2 border-t border-slate-700/60 pt-4">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-blue-400 mr-2"></i> Instant WhatsApp greeting intent</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-blue-400 mr-2"></i> Budget vs Estimated Package comparison</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-blue-400 mr-2"></i> One-click conversion to Confirmed Booking</li>
+                    </ul>
+                    <div class="mt-5 pt-4 border-t border-slate-700/60 flex items-center justify-between text-xs font-bold text-blue-400 group-hover:text-blue-300">
+                        <span>Tap to Open Live Interface</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition transform"></i>
+                    </div>
+                </div>
+
+                <!-- Module 2: Shoots & Gear -->
+                <div onclick="openModuleModal('shoots')" class="glass-card p-8 rounded-3xl transition duration-300 cursor-pointer hover:border-amber-500/60 hover:-translate-y-1 transform group">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-14 h-14 rounded-2xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-2xl group-hover:scale-110 transition transform">
+                            <i class="fa-solid fa-camera"></i>
+                        </div>
+                        <span class="text-[11px] font-bold px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/25 flex items-center">
+                            <i class="fa-solid fa-suitcase-rolling mr-1 text-[10px]"></i> Call Sheet
+                        </span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-amber-400 transition">Shoots & Gear Checklists</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Coordinate multi-day shoot itineraries, client venues, call times, and assigned crew. Prevent missing gear on shoot day with interactive packing checklists.
+                    </p>
+                    <ul class="text-xs text-slate-300 space-y-2 border-t border-slate-700/60 pt-4">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-amber-400 mr-2"></i> Battery charging & SD card formats</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-amber-400 mr-2"></i> Drone, gimbal, audio & lighting kits</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-amber-400 mr-2"></i> Lead photographer & cinematographer roster</li>
+                    </ul>
+                    <div class="mt-5 pt-4 border-t border-slate-700/60 flex items-center justify-between text-xs font-bold text-amber-400 group-hover:text-amber-300">
+                        <span>Tap to Open Live Interface</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition transform"></i>
+                    </div>
+                </div>
+
+                <!-- Module 3: Post-Production Pipeline -->
+                <div onclick="openModuleModal('editing')" class="glass-card p-8 rounded-3xl transition duration-300 cursor-pointer hover:border-indigo-500/60 hover:-translate-y-1 transform group">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-14 h-14 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-2xl group-hover:scale-110 transition transform">
+                            <i class="fa-solid fa-film"></i>
+                        </div>
+                        <span class="text-[11px] font-bold px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/25 flex items-center">
+                            <i class="fa-solid fa-sliders mr-1 text-[10px]"></i> Workflows
+                        </span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-indigo-400 transition">Photo & Video Editing Pipeline</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Track raw photo culling, high-end skin retouching, color grading, Instagram 60s teaser reels, and 45-minute traditional cinematic films.
+                    </p>
+                    <ul class="text-xs text-slate-300 space-y-2 border-t border-slate-700/60 pt-4">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-indigo-400 mr-2"></i> Live progress bars (% photos completed)</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-indigo-400 mr-2"></i> Video milestone stages (Rough cut &rarr; Final)</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-indigo-400 mr-2"></i> Client revision rounds tracking</li>
+                    </ul>
+                    <div class="mt-5 pt-4 border-t border-slate-700/60 flex items-center justify-between text-xs font-bold text-indigo-400 group-hover:text-indigo-300">
+                        <span>Tap to Open Live Interface</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition transform"></i>
+                    </div>
+                </div>
+
+                <!-- Module 4: Canvera Album Workflow -->
+                <div onclick="openModuleModal('albums')" class="glass-card p-8 rounded-3xl transition duration-300 cursor-pointer hover:border-purple-500/60 hover:-translate-y-1 transform group">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-14 h-14 rounded-2xl bg-purple-600/20 border border-purple-500/30 flex items-center justify-center text-purple-400 text-2xl group-hover:scale-110 transition transform">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <span class="text-[11px] font-bold px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/25 flex items-center">
+                            <i class="fa-solid fa-print mr-1 text-[10px]"></i> Photobook
+                        </span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition">albums Printing Ops</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        End-to-end luxury photobook lifecycle. From sheet designing, PDF client proofing approval, Album order ID placement, to courier dispatch and delivery.
+                    </p>
+                    <ul class="text-xs text-slate-300 space-y-2 border-t border-slate-700/60 pt-4">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-purple-400 mr-2"></i> Size selection (12x36, 12x30, 10x24)</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-purple-400 mr-2"></i> Paper finish (Velvet, Metallic, Luster)</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-purple-400 mr-2"></i> Courier tracking & client unboxing alert</li>
+                    </ul>
+                    <div class="mt-5 pt-4 border-t border-slate-700/60 flex items-center justify-between text-xs font-bold text-purple-400 group-hover:text-purple-300">
+                        <span>Tap to Open Live Interface</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition transform"></i>
+                    </div>
+                </div>
+
+                <!-- Module 5: 18% GST Quotations & Invoicing -->
+                <div onclick="openModuleModal('gst')" class="glass-card p-8 rounded-3xl transition duration-300 cursor-pointer hover:border-emerald-500/60 hover:-translate-y-1 transform group">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-14 h-14 rounded-2xl bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-2xl group-hover:scale-110 transition transform">
+                            <i class="fa-solid fa-file-invoice"></i>
+                        </div>
+                        <span class="text-[11px] font-bold px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 flex items-center">
+                            <i class="fa-solid fa-percent mr-1 text-[10px]"></i> 18% GST
+                        </span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-emerald-400 transition">Commercial Proposals & GST PDF</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Build commercial proposals in 30 seconds. Automatically calculate 18% GST (CGST 9% + SGST 9%), 30% booking advance, and generate branded PDF documents with canvas graphics.
+                    </p>
+                    <ul class="text-xs text-slate-300 space-y-2 border-t border-slate-700/60 pt-4">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 mr-2"></i> Direct PDF sharing via Android Share Sheet</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 mr-2"></i> Razorpay payment order IDs & links</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 mr-2"></i> Financial Year P&L export to CSV</li>
+                    </ul>
+                    <div class="mt-5 pt-4 border-t border-slate-700/60 flex items-center justify-between text-xs font-bold text-emerald-400 group-hover:text-emerald-300">
+                        <span>Tap to Open Live Interface</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition transform"></i>
+                    </div>
+                </div>
+
+                <!-- Module 6: Multi-Tenant Workspaces -->
+                <div onclick="openModuleModal('tenants')" class="glass-card p-8 rounded-3xl transition duration-300 cursor-pointer hover:border-rose-500/60 hover:-translate-y-1 transform group">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-14 h-14 rounded-2xl bg-rose-600/20 border border-rose-500/30 flex items-center justify-center text-rose-400 text-2xl group-hover:scale-110 transition transform">
+                            <i class="fa-solid fa-building-user"></i>
+                        </div>
+                        <span class="text-[11px] font-bold px-3 py-1 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/25 flex items-center">
+                            <i class="fa-solid fa-network-wired mr-1 text-[10px]"></i> Multi-Branch
+                        </span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-rose-400 transition">Multi-Tenant Studio Isolation</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Run multiple studio brands or regional branches (e.g. Pune, Mumbai, Goa) with zero data cross-contamination. Switch workspaces with one tap.
+                    </p>
+                    <ul class="text-xs text-slate-300 space-y-2 border-t border-slate-700/60 pt-4">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-rose-400 mr-2"></i> Completely isolated database tenants</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-rose-400 mr-2"></i> Branch-specific GSTIN & branding</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-rose-400 mr-2"></i> Individual staff assignment per branch</li>
+                    </ul>
+                    <div class="mt-5 pt-4 border-t border-slate-700/60 flex items-center justify-between text-xs font-bold text-rose-400 group-hover:text-rose-300">
+                        <span>Tap to Open Live Interface</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition transform"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof Section: Trusted by Studios -->
+    <section id="testimonials" class="py-24 bg-gradient-to-b from-[#080C14] via-slate-950 to-[#080C14] border-t border-slate-800/80 relative overflow-hidden">
+        <!-- Ambient Glow -->
+        <div class="absolute top-1/2 left-1/3 -translate-y-1/2 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[140px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-amber-400 text-xs font-bold uppercase tracking-widest bg-amber-500/10 px-3.5 py-1.5 rounded-full border border-amber-500/25">
+                    Social Proof • 500+ Studios Active
+                </span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-4">
+                    Trusted by Studios
+                </h2>
+                <p class="text-slate-400 mt-4 text-base sm:text-lg">
+                    Discover how top wedding filmmakers, commercial photographers, and creative studio owners rely on the BOSS platform to scale their operations.
+                </p>
+            </div>
+
+            <!-- Testimonial Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="glass-card p-8 rounded-3xl border border-slate-800 flex flex-col justify-between hover:border-blue-500/40 transition duration-300">
+                    <div>
+                        <!-- Stars & Badge -->
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex text-amber-400 text-sm space-x-1">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/15 text-blue-400 border border-blue-500/30">Verified Studio</span>
+                        </div>
+                        <p class="text-slate-300 text-sm leading-relaxed italic mb-6">
+                            "Before BOSS, managing 40+ destination weddings each season meant chaotic WhatsApp groups and missed equipment. The individual staff login is a game-changer—our photographers only see their own shoot call sheets and gear checklists, while our financials stay private. Clients also love receiving instant 18% GST proposals directly on WhatsApp."
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-4 border-t border-slate-800/80 pt-4">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-black text-base shadow-md">
+                            RS
+                        </div>
+                        <div>
+                            <!-- <h4 class="text-white font-bold text-sm">Rajesh Singhania</h4> -->
+                            <p class="text-blue-400 text-xs font-semibold">Founder & Lead Cinematographer</p>
+                            <!-- <p class="text-slate-500 text-[11px]">The Royal Knot Studios (Mumbai & Udaipur)</p> -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="glass-card p-8 rounded-3xl border border-slate-800 flex flex-col justify-between hover:border-blue-500/40 transition duration-300">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex text-amber-400 text-sm space-x-1">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-500/15 text-purple-400 border border-purple-500/30">Albums Power User</span>
+                        </div>
+                        <p class="text-slate-300 text-sm leading-relaxed italic mb-6">
+                            "The album workflow and editing milestone pipeline cut our post-production delivery cycle from 90 days to just 24 days. Our clients approve photo culling and album proofs seamlessly, and our editing team never misses a delivery milestone. BOSS has truly unlocked operational velocity for our studio."
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-4 border-t border-slate-800/80 pt-4">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center text-white font-black text-base shadow-md">
+                            AS
+                        </div>
+                        <div>
+                            <!-- <h4 class="text-white font-bold text-sm">Ananya Sen</h4> -->
+                            <p class="text-purple-400 text-xs font-semibold">Creative Director & Studio Owner</p>
+                            <!-- <p class="text-slate-500 text-[11px]">Aura Wedding Stories (Kolkata & Delhi)</p> -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="glass-card p-8 rounded-3xl border border-slate-800 flex flex-col justify-between hover:border-blue-500/40 transition duration-300">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex text-amber-400 text-sm space-x-1">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Multi-Branch Agency</span>
+                        </div>
+                        <p class="text-slate-300 text-sm leading-relaxed italic mb-6">
+                            "Operating across Pune and Goa was an accounting nightmare until we switched to BOSS. The multi-tenant isolation keeps branch finances independent, and one-click P&L export to CSV saved our chartered accountant days of work during GST filing. Plus, the offline Android app works with zero lag in low-signal beach resorts."
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-4 border-t border-slate-800/80 pt-4">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-600 flex items-center justify-center text-white font-black text-base shadow-md">
+                            KD
+                        </div>
+                        <div>
+                            <!-- <h4 class="text-white font-bold text-sm">Kunal Deshmukh</h4> -->
+                            <p class="text-emerald-400 text-xs font-semibold">Managing Partner & Principal</p>
+                            <p class="text-slate-500 text-[11px]">PixelCraft Visuals (Pune & Goa)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Proof Stats Strip -->
+            <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 text-center border-t border-slate-800/80 pt-12">
+                <div>
+                    <div class="text-3xl sm:text-4xl font-black text-white">500+</div>
+                    <div class="text-xs sm:text-sm text-slate-400 font-medium mt-1">Active Studios Onboarded</div>
+                </div>
+                <div>
+                    <div class="text-3xl sm:text-4xl font-black text-blue-400">14,000+</div>
+                    <div class="text-xs sm:text-sm text-slate-400 font-medium mt-1">Wedding Shoots Coordinated</div>
+                </div>
+                <div>
+                    <div class="text-3xl sm:text-4xl font-black text-emerald-400">₹48 Cr+</div>
+                    <div class="text-xs sm:text-sm text-slate-400 font-medium mt-1">Proposals & Quotes Managed</div>
+                </div>
+                <div>
+                    <div class="text-3xl sm:text-4xl font-black text-amber-400">4.9 / 5</div>
+                    <div class="text-xs sm:text-sm text-slate-400 font-medium mt-1">Studio Satisfaction Rating</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Live Quotation & 18% GST Calculator -->
+    <section id="calculator" class="py-20 bg-slate-950/80 border-t border-slate-800">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-amber-400 text-xs font-bold uppercase tracking-widest bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">Interactive Studio Tool</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-3">
+                    Instant Commercial Quotation & GST Calculator
+                </h2>
+                <p class="text-slate-400 mt-2 text-sm">
+                    Test how BOSS calculates packages, add-ons, 18% GST, and client milestone payments in seconds.
+                </p>
+            </div>
+
+            <div class="glass-card rounded-3xl p-6 sm:p-10 border border-slate-700">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Calculator Inputs -->
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Select Event Type</label>
+                            <select id="calcEvent" onchange="calculateQuote()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-blue-500">
+                                <option value="250000">3-Day Grand Wedding (Base ₹2,50,000)</option>
+                                <option value="120000">2-Day Traditional Wedding (Base ₹1,20,000)</option>
+                                <option value="50000">Pre-Wedding Shoot (Base ₹50,000)</option>
+                                <option value="80000">Commercial / Fashion Campaign (Base ₹80,000)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                                <span>Shoot Duration</span>
+                                <span id="daysDisplay" class="text-blue-400 font-bold">2 Days</span>
+                            </div>
+                            <input type="range" id="calcDays" min="1" max="5" value="2" oninput="calculateQuote()" class="w-full accent-blue-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-3">Add-Ons & Production Extras</label>
+                            <div class="space-y-2.5">
+                                <label class="flex items-center space-x-3 bg-slate-900/60 p-3 rounded-xl border border-slate-800 cursor-pointer">
+                                    <input type="checkbox" id="addonDrone" onchange="calculateQuote()" class="rounded accent-blue-500 w-4 h-4">
+                                    <span class="text-sm text-slate-300 flex-1">Cinematic 4K Drone Pilot (+₹25,000)</span>
+                                </label>
+                                <label class="flex items-center space-x-3 bg-slate-900/60 p-3 rounded-xl border border-slate-800 cursor-pointer">
+                                    <input type="checkbox" id="addonTeaser" onchange="calculateQuote()" checked class="rounded accent-blue-500 w-4 h-4">
+                                    <span class="text-sm text-slate-300 flex-1">Same-Day Instagram Reels Edit (+₹15,000)</span>
+                                </label>
+                                <label class="flex items-center space-x-3 bg-slate-900/60 p-3 rounded-xl border border-slate-800 cursor-pointer">
+                                    <input type="checkbox" id="addonAlbum" onchange="calculateQuote()" checked class="rounded accent-blue-500 w-4 h-4">
+                                    <span class="text-sm text-slate-300 flex-1">Canvera 40-Sheet Velvet Album (+₹30,000)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calculator Output Card -->
+                    <div class="bg-slate-900/90 rounded-2xl p-6 border border-slate-800 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+                                <span class="text-xs uppercase font-bold text-slate-400">Estimate Breakdown</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-500/20 text-blue-300">GST COMPLIANT</span>
+                            </div>
+
+                            <div class="space-y-3 mt-4 text-sm">
+                                <div class="flex justify-between text-slate-400">
+                                    <span>Base Production:</span>
+                                    <span id="outBase" class="text-white font-medium">₹1,20,000</span>
+                                </div>
+                                <div class="flex justify-between text-slate-400">
+                                    <span>Selected Add-ons:</span>
+                                    <span id="outAddons" class="text-white font-medium">₹45,000</span>
+                                </div>
+                                <div class="flex justify-between text-slate-400">
+                                    <span>Subtotal:</span>
+                                    <span id="outSubtotal" class="text-white font-semibold">₹1,65,000</span>
+                                </div>
+                                <div class="flex justify-between text-slate-400">
+                                    <span>GST (18% - CGST 9% + SGST 9%):</span>
+                                    <span id="outGst" class="text-amber-400 font-semibold">+₹29,700</span>
+                                </div>
+                                <div class="pt-3 border-t border-slate-800 flex justify-between items-baseline">
+                                    <span class="text-base font-bold text-white">Grand Total:</span>
+                                    <span id="outTotal" class="text-2xl font-black text-emerald-400">₹1,94,700</span>
+                                </div>
+                            </div>
+
+                            <!-- Milestone Payments -->
+                            <div class="mt-6 bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2 text-xs">
+                                <div class="font-bold text-slate-300 uppercase tracking-wide">Schedule of Payments</div>
+                                <div class="flex justify-between text-slate-400">
+                                    <span>1. Booking Advance (30%):</span>
+                                    <span id="outAdvance" class="text-blue-400 font-bold">₹58,410</span>
+                                </div>
+                                <div class="flex justify-between text-slate-400">
+                                    <span>2. Handover Balance (70%):</span>
+                                    <span id="outBalance" class="text-slate-200 font-bold">₹1,36,290</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 pt-4">
+                            <button onclick="shareCalculatedQuote()" class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-sm shadow-lg shadow-emerald-600/30 flex items-center justify-center space-x-2 transition">
+                                <i class="fa-brands fa-whatsapp text-lg"></i>
+                                <span>Send Proposal on WhatsApp</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-blue-400 text-xs font-bold uppercase tracking-widest bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">Transparent Pricing</span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-4">
+                    Invest in Flawless Studio Operations
+                </h2>
+                <p class="text-slate-400 mt-4 text-base sm:text-lg">
+                    No hidden charges. No per-quotation fees. Run your studio with predictable SaaS pricing.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- Freelance Tier -->
+                <div class="glass-card p-8 rounded-3xl border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Solo Creator</span>
+                        <h3 class="text-2xl font-bold text-white mt-2">Freelancer</h3>
+                        <p class="text-slate-400 text-sm mt-2">For independent wedding photographers and commercial cinematographers.</p>
+                        <div class="mt-6 flex items-baseline">
+                            <span class="text-4xl font-extrabold text-white">₹999</span>
+                            <span class="text-slate-400 text-sm ml-2">/ month</span>
+                        </div>
+                        <ul class="mt-6 space-y-3 text-sm text-slate-300">
+                            <li class="flex items-center"><i class="fa-solid fa-check text-blue-400 mr-3"></i> 1 Studio Workspace</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-blue-400 mr-3"></i> Unlimited Inquiries & Shoots</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-blue-400 mr-3"></i> GST PDF Proposals with WhatsApp Share</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-blue-400 mr-3"></i> Photo Culling & Reel Pipeline</li>
+                            <li class="flex items-center text-slate-500"><i class="fa-solid fa-xmark mr-3"></i> Team RBAC (Solo user only)</li>
+                        </ul>
+                    </div>
+                    <a href="#contact" class="mt-8 block text-center py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-sm transition">
+                        Get Started
+                    </a>
+                </div>
+
+                <!-- Studio Pro Tier (Featured) -->
+                <div class="glass-card p-8 rounded-3xl border-2 border-blue-500 shadow-2xl shadow-blue-500/10 flex flex-col justify-between relative transform md:-translate-y-4">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs font-black uppercase tracking-wider shadow-md">
+                        Most Popular
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-blue-400 uppercase tracking-widest">Full Production Team</span>
+                        <h3 class="text-2xl font-bold text-white mt-2">Studio Pro</h3>
+                        <p class="text-slate-400 text-sm mt-2">For established wedding studios and creative agencies with crew.</p>
+                        <div class="mt-6 flex items-baseline">
+                            <span class="text-4xl font-extrabold text-white">₹2,499</span>
+                            <span class="text-slate-400 text-sm ml-2">/ month</span>
+                        </div>
+                        <ul class="mt-6 space-y-3 text-sm text-slate-300">
+                            <li class="flex items-center"><i class="fa-solid fa-check text-blue-400 mr-3"></i> Up to 10 Team Members</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-blue-400 mr-3"></i> <strong>Individual Staff Role RBAC</strong></li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-blue-400 mr-3"></i> Canvera Album Printing Ops</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-blue-400 mr-3"></i> Gear Bag Checklists & Call Sheets</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-blue-400 mr-3"></i> Financial Year P&L & Razorpay Links</li>
+                        </ul>
+                    </div>
+                    <a href="#contact" class="mt-8 block text-center py-3.5 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-blue-600/30 transition">
+                        Start 14-Day Free Trial
+                    </a>
+                </div>
+
+                <!-- Enterprise Tier -->
+                <div class="glass-card p-8 rounded-3xl border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Multi-Branch Agency</span>
+                        <h3 class="text-2xl font-bold text-white mt-2">Enterprise / Agency</h3>
+                        <p class="text-slate-400 text-sm mt-2">For large-scale media companies and multi-city studio franchises.</p>
+                        <div class="mt-6 flex items-baseline">
+                            <span class="text-4xl font-extrabold text-white">₹4,999</span>
+                            <span class="text-slate-400 text-sm ml-2">/ month</span>
+                        </div>
+                        <ul class="mt-6 space-y-3 text-sm text-slate-300">
+                            <li class="flex items-center"><i class="fa-solid fa-check text-blue-400 mr-3"></i> Unlimited Multi-Tenant Branches</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-blue-400 mr-3"></i> Unlimited Staff Seats with RBAC</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-blue-400 mr-3"></i> Custom Hard Drive Vault & NAS Sync</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-blue-400 mr-3"></i> Dedicated Account Manager & SLA</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-blue-400 mr-3"></i> Custom White-label APK Branding</li>
+                        </ul>
+                    </div>
+                    <a href="#contact" class="mt-8 block text-center py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-sm transition">
+                        Contact Enterprise
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- APK Download & Installation Center -->
+    <section id="download" class="py-20 bg-slate-950 border-t border-b border-slate-800">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card rounded-3xl p-8 sm:p-12 border border-blue-500/30 bg-gradient-to-br from-blue-950/40 via-slate-900 to-indigo-950/40">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                    <div class="md:col-span-7">
+                        <span class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold mb-4">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>Compiled & Verified APK Ready</span>
+                        </span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
+                            Get BOSS for Android
+                        </h2>
+                        <p class="text-slate-300 mt-3 text-sm sm:text-base leading-relaxed">
+                            Experience native Material Design 3 smoothness, offline SQLite storage, instant PDF quote generation, and strict role logins directly on your phone or tablet.
+                        </p>
+
+                        <div class="mt-6 flex flex-wrap gap-4">
+                            <a href="BOSS-app-debug.apk" download="BOSS-app-debug.apk" onclick="downloadApk(event)" class="inline-flex items-center px-6 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-base shadow-xl shadow-blue-600/30 transition transform hover:-translate-y-0.5">
+                                <i class="fa-brands fa-android text-2xl text-emerald-400 mr-3"></i>
+                                <span>Download BOSS-app-debug.apk (24MB)</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Steps Card -->
+                    <div class="md:col-span-5 bg-slate-900/90 rounded-2xl p-6 border border-slate-800">
+                        <h4 class="text-xs uppercase font-bold text-slate-400 tracking-wider mb-4">30-Second Install Guide</h4>
+                        <ol class="space-y-4 text-xs text-slate-300">
+                            <li class="flex items-start">
+                                <span class="w-6 h-6 rounded-full bg-blue-600/30 text-blue-400 font-bold flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">1</span>
+                                <span>Tap <strong>Download BOSS-app-debug.apk</strong> on your Android device.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="w-6 h-6 rounded-full bg-blue-600/30 text-blue-400 font-bold flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">2</span>
+                                <span>Open notifications or Downloads, then tap the downloaded APK.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="w-6 h-6 rounded-full bg-blue-600/30 text-blue-400 font-bold flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">3</span>
+                                <span>If prompted, toggle <strong>"Allow from this source"</strong> in Chrome settings.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="w-6 h-6 rounded-full bg-blue-600/30 text-blue-400 font-bold flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">4</span>
+                                <span>Tap <strong>Install</strong> and start operating your studio like a BOSS!</span>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14">
+                <span class="text-blue-400 text-xs font-bold uppercase tracking-widest bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">Questions & Answers</span>
+                <h2 class="text-3xl font-extrabold text-white mt-3">Frequently Asked Questions</h2>
+            </div>
+
+            <div class="space-y-4">
+                <details class="glass-card p-6 rounded-2xl border border-slate-800 cursor-pointer group">
+                    <summary class="font-bold text-white text-base flex justify-between items-center list-none">
+                        <span>Does BOSS require an active internet connection to work?</span>
+                        <i class="fa-solid fa-chevron-down text-slate-400 group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="text-sm text-slate-400 mt-3 leading-relaxed">
+                        No! BOSS is built with modern Room SQLite local persistence on Android. You can create bookings, mark gear checklists on remote destination weddings with zero connectivity, update editing statuses, and compute GST quotations offline.
+                    </p>
+                </details>
+
+                <details class="glass-card p-6 rounded-2xl border border-slate-800 cursor-pointer group">
+                    <summary class="font-bold text-white text-base flex justify-between items-center list-none">
+                        <span>How does the individual role-based staff visibility work?</span>
+                        <i class="fa-solid fa-chevron-down text-slate-400 group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="text-sm text-slate-400 mt-3 leading-relaxed">
+                        In the Admin Console, studio owners can assign specific staff members (Photographers, Editors, Cinematographers, Album Specialists). When that team member logs in, they only see tasks, shoots, and photo/video projects where they are assigned. Revenue numbers, sensitive client quotes, and other team members' workloads remain locked.
+                    </p>
+                </details>
+
+                <details class="glass-card p-6 rounded-2xl border border-slate-800 cursor-pointer group">
+                    <summary class="font-bold text-white text-base flex justify-between items-center list-none">
+                        <span>Can I export P&L and GST records for my chartered accountant?</span>
+                        <i class="fa-solid fa-chevron-down text-slate-400 group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="text-sm text-slate-400 mt-3 leading-relaxed">
+                        Yes! BOSS features a dedicated Financial Year module that organizes all studio revenue, payments, GST liabilities, and pending client balances. You can export complete CSV statements with one tap directly into Excel or Tally.
+                    </p>
+                </details>
+
+                <details class="glass-card p-6 rounded-2xl border border-slate-800 cursor-pointer group">
+                    <summary class="font-bold text-white text-base flex justify-between items-center list-none">
+                        <span>How do I download and install the BOSS Android APK?</span>
+                        <i class="fa-solid fa-chevron-down text-slate-400 group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="text-sm text-slate-400 mt-3 leading-relaxed">
+                        You can download the production APK directly from this website by tapping any <strong>Download APK</strong> button. Once the download finishes, tap the notification or open your Downloads folder to install. If your browser asks, enable "Install unknown apps" in settings. BOSS works securely with your verified studio data.
+                    </p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Launch / Book a Demo Form -->
+    <section id="contact" class="py-20 bg-slate-950/80 border-t border-slate-800">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="text-emerald-400 text-xs font-bold uppercase tracking-widest bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">Launch Today</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-3">
+                Ready to Upgrade Your Studio Operations?
+            </h2>
+            <p class="text-slate-400 mt-2 text-sm sm:text-base">
+                Join 500+ top wedding cinematographers and creative studios scaling their business with BOSS.
+            </p>
+
+            <form onsubmit="handleLeadSubmit(event)" class="mt-8 glass-card p-8 rounded-3xl border border-slate-700 text-left space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Your Name</label>
+                        <input type="text" id="leadName" required placeholder="Shakir Tamboli" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Studio / Brand Name</label>
+                        <input type="text" id="leadStudio" required placeholder="Lumière Wedding Films" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-blue-500">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">WhatsApp / Phone Number</label>
+                        <input type="tel" id="leadPhone" required placeholder="+91 98765 43210" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">City / Location</label>
+                        <input type="text" id="leadCity" required placeholder="Pune / Mumbai" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-blue-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Current Studio Challenges / Modules Needed</label>
+                    <textarea id="leadNotes" rows="3" placeholder="Need better gear checklists, editing pipeline tracking, and role-based access for 6 photographers." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-blue-500"></textarea>
+                </div>
+
+                <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-base shadow-xl shadow-blue-600/30 transition transform hover:-translate-y-0.5">
+                    Request Live Onboarding & Free Studio Audit
+                </button>
+            </form>
+            <div id="leadSuccess" class="hidden mt-4 p-4 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-sm font-semibold">
+                🎉 Thank you! Your onboarding request is received. Opening WhatsApp to connect with the BOSS Studio launch specialist...
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 bg-[#06090F] py-12 text-slate-400 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center font-black text-white text-sm">
+                    BOSS
+                </div>
+                <div>
+                    <span class="font-bold text-slate-200 text-sm">Business Operations Studio System (BOSS)</span>
+                    <p class="text-[10px] text-slate-500">Manage. Track. Grow. — All-in-One Studio Operating System</p>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-6 text-slate-400">
+                <a href="#features" class="hover:text-blue-400 transition">Modules</a>
+                <a href="#roles" class="hover:text-blue-400 transition">Staff RBAC</a>
+                <a href="#calculator" class="hover:text-blue-400 transition">Quotation Tool</a>
+                <a href="#download" class="hover:text-blue-400 transition">Download APK</a>
+                <a href="mailto:shakirtamboli.pune11@gmail.com" class="hover:text-blue-400 transition">Support</a>
+            </div>
+
+            <div class="text-center md:text-right text-slate-500 text-[11px]">
+                &copy; 2026 BOSS Studio Systems. All rights reserved. GST Registered.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Sticky Download Bar -->
+    <aside aria-label="Quick APK Download" id="stickyDownloadBar" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-xl glassmorphism rounded-2xl p-3 border border-blue-500/40 shadow-2xl flex items-center justify-between transition-all duration-300">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white text-lg font-black shadow-md flex-shrink-0">
+                <i class="fa-brands fa-android text-emerald-400"></i>
+            </div>
+            <div>
+                <div class="text-xs font-bold text-white flex items-center space-x-1.5">
+                    <span>BOSS Android App</span>
+                    <span class="text-[9px] bg-emerald-500/20 text-emerald-400 font-semibold px-1.5 py-0.2 rounded">v3.0.0</span>
+                </div>
+                <p class="text-[11px] text-slate-300">Direct APK Download • 100% Offline SQLite</p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-2">
+            <a href="BOSS-app-debug.apk" download="BOSS-app-debug.apk" class="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-md transition flex items-center space-x-1.5 whitespace-nowrap">
+                <i class="fa-solid fa-download text-xs text-emerald-300"></i>
+                <span>Get APK (24MB)</span>
+            </a>
+            <button onclick="document.getElementById('stickyDownloadBar').remove()" class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center text-xs transition" title="Dismiss">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Interactive Module Modal (Tap to Open Interface) -->
+    <div id="moduleModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-md hidden transition-opacity duration-300" onclick="closeModuleModal()">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+            <!-- Modal Header -->
+            <div class="p-5 sm:p-6 border-b border-slate-800 flex items-center justify-between bg-slate-950/80">
+                <div class="flex items-center space-x-3">
+                    <div id="modalIcon" class="w-12 h-12 rounded-2xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 text-xl font-bold">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <h3 id="modalTitle" class="text-xl font-bold text-white">Module Title</h3>
+                            <span id="modalBadge" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">MODULE INTERFACE</span>
+                        </div>
+                        <p id="modalSubtitle" class="text-xs text-slate-400 mt-0.5">Interactive live interface simulator</p>
+                    </div>
+                </div>
+                <button onclick="closeModuleModal()" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+
+            <!-- Modal Interactive Body -->
+            <div class="p-5 sm:p-6 overflow-y-auto space-y-4 flex-1 text-slate-200" id="modalDynamicBody">
+                <!-- Dynamically rendered by openModuleModal() -->
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-4 sm:p-5 border-t border-slate-800 bg-slate-950/60 flex flex-wrap items-center justify-between gap-3">
+                <div class="text-xs text-slate-400 flex items-center">
+                    <i class="fa-solid fa-circle-info text-blue-400 mr-2"></i>
+                    <span>This interactive view mirrors the native Android Jetpack Compose experience.</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <a href="BOSS-app-debug.apk" download="BOSS-app-debug.apk" onclick="downloadApk(event)" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs transition flex items-center space-x-1.5">
+                        <i class="fa-brands fa-android text-emerald-300"></i>
+                        <span>Download Full App</span>
+                    </a>
+                    <button onclick="closeModuleModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive JavaScript -->
+    <script>
+        // Role Data Simulator
+        const roleData = {
+            admin: {
+                name: "Studio Super Admin (Owner)",
+                avatar: "👑",
+                badge: "ALL ACCESS",
+                desc: "Master P&L, All Financials, Team Permissions, Tenant Workspaces",
+                m1: "₹4,20,000",
+                m1Sub: "Live P&L Velocity",
+                m2: "18 Bookings",
+                m2Sub: "All shoots studio-wide",
+                m3: "6 Staff Members",
+                m3Sub: "Full RBAC control",
+                title: "Studio Command Overview & High-Level Metrics",
+                items: [
+                    // { name: "Kapoor & Verma 3-Day Destination Wedding", desc: "Udaipur Palace • Package: ₹3,50,000 (Advance: ₹1,05,000 paid)", badge: "Confirmed", badgeColor: "bg-blue-500/20 text-blue-300" },
+                    { name: "P&L FY 2024-25 Statement Export Ready", desc: "Net Profit: ₹18.4 Lakhs • GST Liability: ₹3.2 Lakhs", badge: "Audit Ready", badgeColor: "bg-emerald-500/20 text-emerald-300" }
+                ]
+            },
+            photographer: {
+                // name: "Rahul Verma",
+                avatar: "📷",
+                badge: "EMPLOYEE ACCESS",
+                desc: "Assigned Cinematography, Multi-cam Editing, Color Grading & Project Deliverables",
+                m1: "2 Pending Tasks",
+                m1Sub: "Assigned to Staff",
+                m2: "100% Ingested",
+                m2Sub: "4K FX3 Dual-Card Backup",
+                m3: "Privacy Guarded",
+                m3Sub: "Personal Scope View Only",
+                title: "Upcoming Pending Tasks",
+                items: [
+                    // { name: "Color Grade Royal Wedding 4K Teaser", desc: "Singhania Wedding • Due: 08 Oct 2026 (05:00 PM) • Priority: Urgent • Assigned by: Shakir Tamboli", badge: "In Progress", badgeColor: "bg-blue-500/20 text-blue-300" },
+                    // { name: "Drone Sensor Calibration & Gimbal Balance", desc: "Destination Recce • Due: 10 Oct 2026 (11:30 AM) • Priority: High • Assigned by: Priya Sharma", badge: "Pending", badgeColor: "bg-amber-500/20 text-amber-300" }
+                ]
+            },
+            editor: {
+                // name: "Priya Sharma",
+                avatar: "🎨",
+                badge: "MANAGER ACCESS",
+                desc: "Operations Management, Shoot Scheduling, Staff Tasks & Client Coordination",
+                m1: "3 Team Members",
+                m1Sub: "Active studio staff",
+                m2: "4 Confirmed Shoots",
+                m2Sub: "Call times verified",
+                m3: "Completed Tasks",
+                m3Sub: "100% On-Time Delivery",
+                title: "Completed Task Status",
+                items: [
+                    { name: "Dual-Drive Backup of 3-Day Wedding RAW Footage", desc: "Completed By:  • Date: 04 Oct 2026 (07:45 PM) • Remarks: MD5 verified", badge: "Completed", badgeColor: "bg-emerald-500/20 text-emerald-300" },
+                    { name: "Deliver 40 High-Res Highlights for Instagram Reveal", desc: "Completed By:  • Date: 03 Oct 2026 (05:30 PM) • Remarks: Approved by client", badge: "Completed", badgeColor: "bg-emerald-500/20 text-emerald-300" }
+                ]
+            },
+            album: {
+                // name: "Vikram Patil",
+                avatar: "📖",
+                badge: "ALBUM SPECIALIST",
+                desc: " Album Design, Sheet Proofing, Courier Tracking",
+                m1: "2 Photobooks",
+                m1Sub: "In Layout Phase",
+                m2: "Album Order",
+                m2Sub: "Order #CAN-2026-9921",
+                m3: "Proof Approved",
+                m3Sub: "Client signature verified",
+                // title: "Vikram's Album Printing Queue",
+                items: [
+                    // { name: "Deshmukh 40-Sheet Velvet 12x36 Photobook", desc: "Sent for printing to Bangalore Hub • Bluedart Tracking: 849204921", badge: "At Print Hub", badgeColor: "bg-purple-500/20 text-purple-300" },
+                    { name: "Table Book (10x24)", desc: "Client requested replacement of 3 photos on Page 14 & 18", badge: "Revising Layout", badgeColor: "bg-amber-500/20 text-amber-300" }
+                ]
+            }
+        };
+
+        function switchRole(roleKey) {
+            // Update tabs
+            document.querySelectorAll('.role-tab').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-600/30');
+                btn.classList.add('bg-slate-800', 'text-slate-300');
+            });
+            const activeBtn = document.getElementById('btn-' + roleKey);
+            activeBtn.classList.remove('bg-slate-800', 'text-slate-300');
+            activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-600/30');
+
+            const data = roleData[roleKey];
+            document.getElementById('roleAvatar').innerText = data.avatar;
+            document.getElementById('roleUserName').innerText = data.name;
+            document.getElementById('roleBadge').innerText = data.badge;
+            document.getElementById('roleDescription').innerText = data.desc;
+
+            document.getElementById('metric1').innerText = data.m1;
+            document.getElementById('roleMetrics').children[0].children[2].innerText = data.m1Sub;
+
+            document.getElementById('metric2').innerText = data.m2;
+            document.getElementById('roleMetrics').children[1].children[2].innerText = data.m2Sub;
+
+            document.getElementById('metric3').innerText = data.m3;
+            document.getElementById('roleMetrics').children[2].children[2].innerText = data.m3Sub;
+
+            document.getElementById('visibleListTitle').innerText = data.title;
+
+            const itemsContainer = document.getElementById('visibleListItems');
+            itemsContainer.innerHTML = '';
+            data.items.forEach(item => {
+                const div = document.createElement('div');
+                div.className = "flex items-center justify-between p-3 rounded-xl bg-slate-800/60 border border-slate-700/50";
+                div.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+                        <div>
+                            <p class="text-sm font-semibold text-white">${item.name}</p>
+                            <p class="text-xs text-slate-400">${item.desc}</p>
+                        </div>
+                    </div>
+                    <span class="px-2 py-1 text-xs rounded ${item.badgeColor} font-semibold">${item.badge}</span>
+                `;
+                itemsContainer.appendChild(div);
+            });
+        }
+
+        // Live Quotation Calculator
+        function calculateQuote() {
+            const baseAmount = parseFloat(document.getElementById('calcEvent').value);
+            const days = parseInt(document.getElementById('calcDays').value);
+            document.getElementById('daysDisplay').innerText = days + (days === 1 ? ' Day' : ' Days');
+
+            let adjustedBase = baseAmount;
+            if (days > 1) {
+                adjustedBase = baseAmount + ((days - 1) * (baseAmount * 0.45));
+            }
+
+            let addons = 0;
+            if (document.getElementById('addonDrone').checked) addons += 25000;
+            if (document.getElementById('addonTeaser').checked) addons += 15000;
+            if (document.getElementById('addonAlbum').checked) addons += 30000;
+
+            const subtotal = adjustedBase + addons;
+            const gst = subtotal * 0.18;
+            const grandTotal = subtotal + gst;
+            const advance = grandTotal * 0.30;
+            const balance = grandTotal * 0.70;
+
+            document.getElementById('outBase').innerText = '₹' + Math.round(adjustedBase).toLocaleString('en-IN');
+            document.getElementById('outAddons').innerText = '₹' + Math.round(addons).toLocaleString('en-IN');
+            document.getElementById('outSubtotal').innerText = '₹' + Math.round(subtotal).toLocaleString('en-IN');
+            document.getElementById('outGst').innerText = '+₹' + Math.round(gst).toLocaleString('en-IN');
+            document.getElementById('outTotal').innerText = '₹' + Math.round(grandTotal).toLocaleString('en-IN');
+            document.getElementById('outAdvance').innerText = '₹' + Math.round(advance).toLocaleString('en-IN');
+            document.getElementById('outBalance').innerText = '₹' + Math.round(balance).toLocaleString('en-IN');
+        }
+
+        function shareCalculatedQuote() {
+            const total = document.getElementById('outTotal').innerText;
+            const advance = document.getElementById('outAdvance').innerText;
+            const text = encodeURIComponent(`Hello! Here is the estimated package from BOSS (Business Operations Studio System):\n\nTotal: ${total} (Includes 18% GST)\nAdvance Required: ${advance} (30%)\n\nGenerated via BOSS Studio App.`);
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+        }
+
+        // Lead form submission
+        function handleLeadSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('leadName').value;
+            const studio = document.getElementById('leadStudio').value;
+            const phone = document.getElementById('leadPhone').value;
+            const city = document.getElementById('leadCity').value;
+            const notes = document.getElementById('leadNotes').value;
+
+            document.getElementById('leadSuccess').classList.remove('hidden');
+
+            const text = encodeURIComponent(`Hi BOSS Team! I would like to book a studio onboarding demo.\nName: ${name}\nStudio: ${studio}\nPhone: ${phone}\nCity: ${city}\nRequirements: ${notes}`);
+            setTimeout(() => {
+                window.open(`https://wa.me/919876543210?text=${text}`, '_blank');
+            }, 1000);
+        }
+
+        // --- FULL TOUR OF APP LOGIC ---
+        let currentTourStep = 0;
+        const tourSteps = [
+            {
+                badge: "STEP 1 OF 6 • INQUIRY & PROPOSALS",
+                title: "Inquiry Capture & 30-Second GST Quotation",
+                desc: "When a couple or commercial client contacts your studio, enter the dates and package preferences. BOSS instantly calculates line items, automatic 18% GST (CGST 9% + SGST 9%), and 30% booking advance required. Tap one button to share a branded PDF with an automated WhatsApp greeting.",
+                highlights: [
+                    "Zero manual math — automatic 18% GST, CGST/SGST tax split & advance breakdown",
+                    "Native Android Share Sheet: instantly send PDF quotes to WhatsApp or Gmail",
+                    "One-tap conversion from Lead to Confirmed Studio Booking"
+                ],
+                header: "Quotation & WhatsApp Proposal",
+                nextBtn: "Next: Gear Bag Checklist",
+                content: `
+                    <div class="space-y-3">
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                            <div class="flex justify-between items-center text-xs font-bold text-white">
+                                <span>Kapoor & Verma Wedding</span>
+                                <span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 text-[10px]">NEW INQUIRY</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400 mt-1">3-Day Destination Wedding • Udaipur</p>
+                        </div>
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 text-xs space-y-1.5">
+                            <div class="flex justify-between text-slate-400"><span>Base 3-Day Package:</span><span class="text-white font-semibold">₹2,50,000</span></div>
+                            <div class="flex justify-between text-slate-400"><span>Cinematic 4K Drone:</span><span class="text-white font-semibold">+₹25,000</span></div>
+                            <div class="flex justify-between text-slate-400"><span>Canvera 40-Sheet Album:</span><span class="text-white font-semibold">+₹30,000</span></div>
+                            <div class="flex justify-between text-slate-400 border-t border-slate-800 pt-1"><span>GST 18% (9% + 9%):</span><span class="text-amber-400 font-semibold">+₹54,900</span></div>
+                            <div class="flex justify-between text-slate-200 font-bold pt-1 border-t border-slate-800"><span>Grand Total:</span><span class="text-emerald-400 text-sm">₹3,59,900</span></div>
+                        </div>
+                        <div class="bg-blue-950/40 p-2.5 rounded-xl border border-blue-500/30 text-[11px] flex justify-between items-center">
+                            <span class="text-blue-300 font-medium">Advance Due (30%):</span>
+                            <span class="text-white font-bold">₹1,07,970</span>
+                        </div>
+                        <button onclick="shareCalculatedQuote()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center space-x-1.5 transition">
+                            <i class="fa-brands fa-whatsapp text-sm"></i>
+                            <span>Send Quotation on WhatsApp</span>
+                        </button>
+                    </div>
+                `
+            },
+            {
+                badge: "STEP 2 OF 6 • SHOOTS & LOGISTICS",
+                title: "Shoot Calendar & Gear Bag Packing Checklist",
+                desc: "Never leave behind critical memory cards or batteries. BOSS attaches multi-day shoot schedules with assigned crew call times, venue location pins, and a packing checklist tailored for camera bodies, prime lenses, drones, and wireless microphones.",
+                highlights: [
+                    "Check off items as they go into the camera bag on shoot day",
+                    "Assigned crew call times with venue Google Maps navigation links",
+                    "Prevents expensive shoot-day gear failures and battery lapses"
+                ],
+                header: "Shoot Logistics & Gear Bag",
+                nextBtn: "Next: Editing Pipeline",
+                content: `
+                    <div class="space-y-3">
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                            <div class="flex justify-between items-center text-xs font-bold text-white">
+                                <span>Sangeet & Reception Shoot</span>
+                                <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px]">TODAY 4:30 PM</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400 mt-0.5">Taj Aravali, Udaipur • Lead: Lead Cinematographer</p>
+                        </div>
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 space-y-2 text-xs">
+                            <div class="font-bold text-slate-300 text-[11px] uppercase tracking-wider">Gear Checklist (5/6 Packed)</div>
+                            <label class="flex items-center space-x-2 text-slate-300 cursor-pointer"><input type="checkbox" checked class="rounded accent-emerald-500 w-3.5 h-3.5"><span>Sony A7IV + FX3 Cinema Body</span></label>
+                            <label class="flex items-center space-x-2 text-slate-300 cursor-pointer"><input type="checkbox" checked class="rounded accent-emerald-500 w-3.5 h-3.5"><span>24-70mm GM II + 50mm f/1.2</span></label>
+                            <label class="flex items-center space-x-2 text-slate-300 cursor-pointer"><input type="checkbox" checked class="rounded accent-emerald-500 w-3.5 h-3.5"><span>DJI Mini 4 Pro Drone + 3 Batteries</span></label>
+                            <label class="flex items-center space-x-2 text-slate-300 cursor-pointer"><input type="checkbox" checked class="rounded accent-emerald-500 w-3.5 h-3.5"><span>4x 128GB V90 ProGrade Cards</span></label>
+                            <label class="flex items-center space-x-2 text-amber-300 font-medium cursor-pointer"><input type="checkbox" class="rounded accent-amber-500 w-3.5 h-3.5"><span>Rode Wireless PRO Mic (Charging...)</span></label>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-emerald-300 text-[11px] flex items-center justify-between">
+                            <span>Packing Readiness:</span>
+                            <span class="font-bold text-white">83% Ready</span>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                badge: "STEP 3 OF 6 • POST-PRODUCTION",
+                title: "Photo Culling & 4K Reel Editing Pipeline",
+                desc: "Keep your post-production editors focused with real-time milestone progress. Track raw photo culling, skin retouching, color grading in DaVinci Resolve, 60-second Instagram teaser reels, and 45-minute master wedding films.",
+                highlights: [
+                    "Live progress bars tracking culled photos out of thousands",
+                    "Revision counters to limit excessive client edit loops",
+                    "Delivery countdown timers to guarantee on-time releases"
+                ],
+                header: "Post-Production Pipeline",
+                nextBtn: "Next: Canvera Luxury Albums",
+                content: `
+                    <div class="space-y-3">
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                            <div class="flex justify-between items-center text-xs font-bold text-white">
+                                <span>Verma Wedding Highlights</span>
+                                <span class="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 text-[10px]">IN PROGRESS</span>
+                            </div>
+                            <div class="mt-2 text-[11px] text-slate-400 flex justify-between"><span>Color Grading:</span><span class="text-white font-bold">75% Done</span></div>
+                            <div class="w-full bg-slate-800 h-1.5 rounded-full mt-1 overflow-hidden"><div class="bg-indigo-500 h-full w-[75%] rounded-full"></div></div>
+                        </div>
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                            <div class="flex justify-between items-center text-xs font-bold text-white">
+                                <span>Instagram Reel (60s Teaser)</span>
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px]">APPROVED</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400 mt-1">Exported 4K 9:16 • Bride approved music track</p>
+                        </div>
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 text-xs">
+                            <div class="flex justify-between text-slate-300 mb-1"><span class="font-medium">Raw Photo Culling:</span><span class="font-bold text-emerald-400">1,850 / 2,500</span></div>
+                            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden"><div class="bg-emerald-500 h-full w-[74%] rounded-full"></div></div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                badge: "STEP 4 OF 6 • Album PRINTING",
+                title: "Luxury Album Design & Printing",
+                desc: "Photobook printing is a critical revenue driver. BOSS integrates the entire photobook journey: sheet design selection, client proofing feedback, Canvera order ID submission, paper finish selection (Velvet, Metallic, Luster), and courier delivery tracking.",
+                highlights: [
+                    "Proofing feedback log: track specific image replacements per page",
+                    "Direct Album Printing order placement with tracking numbers",
+                    "Automated client unboxing notification on courier arrival"
+                ],
+                header: "Album design Management",
+                nextBtn: "Next: Staff RBAC Logins",
+                content: `
+                    <div class="space-y-3">
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                            <div class="flex justify-between items-center text-xs font-bold text-white">
+                                <span> 40-Sheet Velvet</span>
+                                <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 text-[10px]">AT PRINT HUB</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400 mt-1">12x36 Flush Mount • Leatherette Box</p>
+                        </div>
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 text-xs space-y-1.5">
+                            <div class="flex justify-between text-slate-400"><span>Album Order:</span><span class="text-white font-mono font-bold">#CAN-2026-9921</span></div>
+                            <div class="flex justify-between text-slate-400"><span>Paper Finish:</span><span class="text-purple-400 font-semibold">Velvet Touch Matt</span></div>
+                            <div class="flex justify-between text-slate-400"><span>Proof Approval:</span><span class="text-emerald-400 font-semibold">Verified by Couple</span></div>
+                            <div class="flex justify-between text-slate-400 border-t border-slate-800 pt-1"><span>Bluedart Air Tracking:</span><span class="text-blue-400 font-mono">849204921</span></div>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-purple-950/40 border border-purple-500/30 text-purple-300 text-[11px] flex items-center justify-between">
+                            <span>Estimated Dispatch:</span>
+                            <span class="font-bold text-white">Tomorrow 2:00 PM</span>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                badge: "STEP 5 OF 6 • ROLE-BASED ACCESS",
+                title: "Individual Staff Roles & RBAC Logins",
+                desc: "Staff log into BOSS and see only what they need. Photographers only see their assigned shoots and gear lists; video editors only see their editing deadlines. Sensitive studio revenue numbers, total P&L, and client quotes are locked exclusively for the studio owner.",
+                highlights: [
+                    "Zero information leaks — staff never see master profit margins",
+                    "Custom duties & module permissions assigned individually",
+                    "One-tap impersonation / preview tester in Super Admin console"
+                ],
+                header: "Individual Staff RBAC",
+                nextBtn: "Next: P&L & GST Invoicing",
+                content: `
+                    <div class="space-y-3">
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+                            <div class="flex items-center space-x-2.5">
+                                <div class="w-8 h-8 rounded-full bg-blue-600/30 text-blue-400 font-bold flex items-center justify-center text-xs">RV</div>
+                                <div>
+                                    <div class="text-xs font-bold text-white"> </div>
+                                    <div class="text-[10px] text-slate-400">Role: Lead Cinematographer & Editor</div>
+                                </div>
+                            </div>
+                            <span class="text-[9px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-semibold">RESTRICTED</span>
+                        </div>
+                        <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-[11px] text-slate-400 space-y-1">
+                            <div class="flex items-center text-emerald-400"><i class="fa-solid fa-check text-[10px] mr-1.5"></i> <span>Assigned Shoots: Visible</span></div>
+                            <div class="flex items-center text-emerald-400"><i class="fa-solid fa-check text-[10px] mr-1.5"></i> <span>Gear Bag Packing: Visible</span></div>
+                            <div class="flex items-center text-rose-400"><i class="fa-solid fa-lock text-[10px] mr-1.5"></i> <span>Studio Financials & P&L: Hidden</span></div>
+                            <div class="flex items-center text-rose-400"><i class="fa-solid fa-lock text-[10px] mr-1.5"></i> <span>Client Package Budgets: Hidden</span></div>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-[11px] flex justify-between items-center">
+                            <span class="text-slate-400">Active Profile Status:</span>
+                            <span class="text-amber-400 font-bold">Safe Studio Isolation</span>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                badge: "STEP 6 OF 6 • FINANCIALS & GST",
+                title: "Payment Collection & Financial Year P&L",
+                desc: "Stay audit-ready and tax-compliant. Generate Razorpay online payment links for client milestones. When your chartered accountant requests year-end numbers, export a complete P&L CSV statement formatted for GST returns with a single tap.",
+                highlights: [
+                    "Complete payment schedule: 30% advance, 70% delivery handover",
+                    "Automated CGST (9%) + SGST (9%) liability reports",
+                    "One-click CSV export ready for Excel and Tally accounting"
+                ],
+                header: "Financial Year P&L & GST",
+                nextBtn: "Back to Step 1",
+                content: `
+                    <div class="space-y-3">
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                            <div class="flex justify-between items-center text-xs font-bold text-white">
+                                <span>P&L Statement (FY 2024-25)</span>
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px]">PROFITABLE</span>
+                            </div>
+                            <div class="mt-2 text-xl font-black text-emerald-400">₹18,40,000</div>
+                            <p class="text-[10px] text-slate-400">Net Profit • Gross Collections: ₹42.5 Lakhs</p>
+                        </div>
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 text-xs space-y-1.5">
+                            <div class="flex justify-between text-slate-400"><span>Total GST Liability:</span><span class="text-amber-400 font-semibold">₹3,24,000</span></div>
+                            <div class="flex justify-between text-slate-400"><span>Pending Client Handover:</span><span class="text-blue-400 font-semibold">₹4,85,000</span></div>
+                            <div class="flex justify-between text-slate-400"><span>Razorpay Order ID:</span><span class="text-white font-mono text-[10px]">order_BMS_LUM_9921</span></div>
+                        </div>
+                        <button onclick="alert('Exporting BOSS_Financial_Year_2024_25.csv directly to device cache.')" class="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center justify-center space-x-1.5 transition">
+                            <i class="fa-solid fa-file-csv text-sm"></i>
+                            <span>Export P&L CSV for Accountant</span>
+                        </button>
+                    </div>
+                `
+            }
+        ];
+
+        function switchTourStep(index) {
+            currentTourStep = index;
+            const data = tourSteps[index];
+
+            // Update nav buttons
+            document.querySelectorAll('.tour-nav-btn').forEach((btn, i) => {
+                if (i === index) {
+                    btn.classList.remove('bg-slate-800', 'text-slate-300');
+                    btn.classList.add('bg-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-600/30');
+                    btn.children[0].className = "w-5 h-5 rounded-full bg-white/20 text-white flex items-center justify-center text-[10px]";
+                } else {
+                    btn.classList.remove('bg-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-600/30');
+                    btn.classList.add('bg-slate-800', 'text-slate-300');
+                    btn.children[0].className = "w-5 h-5 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center text-[10px]";
+                }
+            });
+
+            // Update left details
+            document.getElementById('tourStepBadge').innerText = data.badge;
+            document.getElementById('tourStepTitle').innerText = data.title;
+            document.getElementById('tourStepDescription').innerText = data.desc;
+
+            const highlightsContainer = document.getElementById('tourStepHighlights');
+            highlightsContainer.innerHTML = '';
+            data.highlights.forEach(h => {
+                const div = document.createElement('div');
+                div.className = "flex items-center text-xs sm:text-sm text-slate-200";
+                div.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 mr-2.5 text-base"></i><span>${h}</span>`;
+                highlightsContainer.appendChild(div);
+            });
+
+            // Update Next button
+            document.getElementById('tourNextBtn').children[0].innerText = data.nextBtn;
+
+            // Update Prev button disabled
+            const prevBtn = document.getElementById('tourPrevBtn');
+            if (index === 0) {
+                prevBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                prevBtn.disabled = true;
+            } else {
+                prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                prevBtn.disabled = false;
+            }
+
+            // Update Mockup Screen
+            document.getElementById('mockupScreenHeader').innerText = data.header;
+            document.getElementById('mockupScreenContent').innerHTML = data.content;
+        }
+
+        function prevTourStep() {
+            if (currentTourStep > 0) {
+                switchTourStep(currentTourStep - 1);
+            }
+        }
+
+        function nextTourStep() {
+            if (currentTourStep < tourSteps.length - 1) {
+                switchTourStep(currentTourStep + 1);
+            } else {
+                switchTourStep(0);
+            }
+        }
+
+        // --- INTERACTIVE MODULE MODAL LOGIC (Tap to Open Interface) ---
+        const moduleModalData = {
+            crm: {
+                icon: '<i class="fa-solid fa-funnel-dollar text-blue-400"></i>',
+                title: "Leads & Inquiry CRM Interface",
+                badge: "INQUIRY & CONVERSIONS",
+                subtitle: "Real-time client pipeline management with WhatsApp automation",
+                body: `
+                    <div class="space-y-4">
+                        <div class="flex flex-wrap gap-2 text-xs">
+                            <span class="px-3 py-1.5 rounded-xl bg-blue-600 text-white font-bold cursor-pointer">New Inquiries (3)</span>
+                            <span class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 font-semibold cursor-pointer">Follow-up (2)</span>
+                            <span class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 font-semibold cursor-pointer">Meeting Scheduled (1)</span>
+                            <span class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 font-semibold cursor-pointer">Confirmed Bookings (4)</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h4 class="font-bold text-white text-sm">Wedding</h4>
+                                        <p class="text-xs text-slate-400">Event Date: 18 Nov 2026 • JW Marriott, Pune</p>
+                                    </div>
+                                    <span class="px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-300 font-bold text-xs">₹2,80,000 Quote</span>
+                                </div>
+                                <div class="mt-3 flex items-center justify-between text-xs pt-3 border-t border-slate-800/80">
+                                    <span class="text-slate-400">Lead Source: Instagram Ad</span>
+                                    <div class="flex space-x-2">
+                                        <button onclick="shareCalculatedQuote()" class="px-3 py-1.5 rounded-lg bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 font-semibold hover:bg-emerald-600/40 transition">
+                                            <i class="fa-brands fa-whatsapp mr-1"></i> Send Quote
+                                        </button>
+                                        <button onclick="alert('Lead converted to Confirmed Booking in Room SQLite!')" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-500 transition">
+                                            Convert to Booking
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h4 class="font-bold text-white text-sm">Pre-Wedding Beach Shoot</h4>
+                                        <p class="text-xs text-slate-400">Event Date: 25 Oct 2026 • Alibaug, MH</p>
+                                    </div>
+                                    <span class="px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 font-bold text-xs">₹65,000 Quote</span>
+                                </div>
+                                <div class="mt-3 flex items-center justify-between text-xs pt-3 border-t border-slate-800/80">
+                                    <span class="text-slate-400">Requested 60s Reel Add-on</span>
+                                    <button onclick="shareCalculatedQuote()" class="px-3 py-1.5 rounded-lg bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 font-semibold hover:bg-emerald-600/40 transition">
+                                        <i class="fa-brands fa-whatsapp mr-1"></i> Follow-up WhatsApp
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            shoots: {
+                icon: '<i class="fa-solid fa-camera text-amber-400"></i>',
+                title: "Shoots & Gear Packing Checklists",
+                badge: "CALL SHEET OPS",
+                subtitle: "Interactive crew call sheets, gear bag preparation, and location logistics",
+                body: `
+                    <div class="space-y-4">
+                        <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Wedding (Day 2: Haldi & Sangeet)</h4>
+                                    <p class="text-xs text-slate-400">Call Time: 3:30 PM • Taj Aravali Resort, Udaipur</p>
+                                </div>
+                                <span class="px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 font-bold text-xs">IN PROGRESS</span>
+                            </div>
+                        </div>
+                        <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                            <h5 class="font-bold text-white text-xs uppercase tracking-wider mb-3">Live Gear Bag Checklist (Interactive)</h5>
+                            <div class="space-y-2 text-xs">
+                                <label class="flex items-center space-x-2.5 bg-slate-900 p-2.5 rounded-xl cursor-pointer"><input type="checkbox" checked class="rounded accent-emerald-500 w-4 h-4"><span class="text-slate-200">Sony Alpha 7 IV Primary Camera (Battery 100%)</span></label>
+                                <label class="flex items-center space-x-2.5 bg-slate-900 p-2.5 rounded-xl cursor-pointer"><input type="checkbox" checked class="rounded accent-emerald-500 w-4 h-4"><span class="text-slate-200">Sony FX3 Cinema Line with Top Handle Audio</span></label>
+                                <label class="flex items-center space-x-2.5 bg-slate-900 p-2.5 rounded-xl cursor-pointer"><input type="checkbox" checked class="rounded accent-emerald-500 w-4 h-4"><span class="text-slate-200">FE 24-70mm F2.8 GM II & 70-200mm GM OSS</span></label>
+                                <label class="flex items-center space-x-2.5 bg-slate-900 p-2.5 rounded-xl cursor-pointer"><input type="checkbox" checked class="rounded accent-emerald-500 w-4 h-4"><span class="text-slate-200">DJI Mini 4 Pro Drone + Fly More Combo (DGCA Approved)</span></label>
+                                <label class="flex items-center space-x-2.5 bg-slate-900 p-2.5 rounded-xl cursor-pointer"><input type="checkbox" checked class="rounded accent-emerald-500 w-4 h-4"><span class="text-slate-200">4x ProGrade Digital 128GB UHS-II V90 SD Cards</span></label>
+                                <label class="flex items-center space-x-2.5 bg-slate-900 p-2.5 rounded-xl cursor-pointer"><input type="checkbox" checked class="rounded accent-emerald-500 w-4 h-4"><span class="text-slate-200">Rode Wireless PRO Dual Transmitter + Lav Mics</span></label>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            editing: {
+                icon: '<i class="fa-solid fa-film text-indigo-400"></i>',
+                title: "Photo & Video Editing Pipeline",
+                badge: "WORKFLOW VELOCITY",
+                subtitle: "Track raw culling, DaVinci Resolve color grading, 60s reels, and master films",
+                body: `
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-2 gap-3 text-xs">
+                            <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800">
+                                <span class="text-slate-400">Active Photo Projects:</span>
+                                <div class="text-xl font-black text-white mt-1">4 Projects</div>
+                            </div>
+                            <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800">
+                                <span class="text-slate-400">Video Milestone Completion:</span>
+                                <div class="text-xl font-black text-indigo-400 mt-1">82% on Time</div>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="font-bold text-white">Wedding Highlights (4K Master Film)</span>
+                                    <span class="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-semibold text-[10px]">COLOR GRADING</span>
+                                </div>
+                                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden"><div class="bg-indigo-500 h-full w-[70%] rounded-full"></div></div>
+                                <div class="flex justify-between text-[11px] text-slate-400"><span>Assigned to: </span><span>Deadline: In 3 Days</span></div>
+                            </div>
+                            <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="font-bold text-white">Deshmukh Wedding Teaser Reel (60s Vertical)</span>
+                                    <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-semibold text-[10px]">APPROVED</span>
+                                </div>
+                                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden"><div class="bg-emerald-500 h-full w-[100%] rounded-full"></div></div>
+                                <div class="flex justify-between text-[11px] text-slate-400"><span>Ready for Instagram upload</span><span>Audio Track: Approved</span></div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            albums: {
+                icon: '<i class="fa-solid fa-book-open text-purple-400"></i>',
+                title: "Album Printing Operations",
+                badge: "LUXURY PHOTOBOOKS",
+                subtitle: "Proofing, layout approval, Album order placement, and courier tracking",
+                body: `
+                    <div class="space-y-4">
+                        <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">40-Sheet Velvet Deluxe Book</h4>
+                                    <p class="text-xs text-slate-400">Canvera Bangalore Hub • Order #CAN-2026-9921</p>
+                                </div>
+                                <span class="px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 font-bold text-xs">PRINTING READY</span>
+                            </div>
+                            <div class="mt-3 grid grid-cols-3 gap-2 text-center text-xs pt-3 border-t border-slate-800">
+                                <div class="bg-slate-900 p-2 rounded-xl"><span class="text-slate-400 text-[10px] block">Size</span><span class="font-bold text-white">12x36 Flush</span></div>
+                                <div class="bg-slate-900 p-2 rounded-xl"><span class="text-slate-400 text-[10px] block">Paper</span><span class="font-bold text-purple-400">Velvet Matt</span></div>
+                                <div class="bg-slate-900 p-2 rounded-xl"><span class="text-slate-400 text-[10px] block">Box Finish</span><span class="font-bold text-amber-400">Leatherette</span></div>
+                            </div>
+                        </div>
+                        <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-xs space-y-2">
+                            <h5 class="font-bold text-slate-300 uppercase tracking-wider">Proofing Status (40/40 Approved)</h5>
+                            <div class="flex items-center text-emerald-400 space-x-2"><i class="fa-solid fa-circle-check"></i><span>Bride & Groom approved all 40 page spreads online.</span></div>
+                            <div class="flex items-center text-blue-400 space-x-2"><i class="fa-solid fa-truck-fast"></i><span>Bluedart Airway Bill: 849204921 (Expected: 2 Days)</span></div>
+                        </div>
+                    </div>
+                `
+            },
+            gst: {
+                icon: '<i class="fa-solid fa-file-invoice text-emerald-400"></i>',
+                title: "18% GST Quotation & Invoice Engine",
+                badge: "TAX & COMPLIANCE",
+                subtitle: "Automated GST proposals, milestone schedules, and branded canvas PDFs",
+                body: `
+                    <div class="space-y-4">
+                        <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-xs space-y-2">
+                            <div class="flex justify-between font-bold text-white text-sm pb-2 border-b border-slate-800">
+                                <span>Proposal Line Items</span>
+                                <span>Amount (INR)</span>
+                            </div>
+                            <div class="flex justify-between text-slate-300"><span>3-Day Traditional Wedding Production</span><span>₹2,20,000</span></div>
+                            <div class="flex justify-between text-slate-300"><span>4K Cinematic Aerial Drone Package</span><span>₹25,000</span></div>
+                            <div class="flex justify-between text-slate-300"><span>Same-Day Teaser Reel Master</span><span>₹15,000</span></div>
+                            <div class="flex justify-between text-slate-400 border-t border-slate-800 pt-2"><span>Subtotal:</span><span>₹2,60,000</span></div>
+                            <div class="flex justify-between text-amber-400"><span>CGST (9%):</span><span>₹23,400</span></div>
+                            <div class="flex justify-between text-amber-400"><span>SGST (9%):</span><span>₹23,400</span></div>
+                            <div class="flex justify-between text-white font-black text-sm border-t border-slate-800 pt-2"><span>Grand Total:</span><span class="text-emerald-400">₹3,06,800</span></div>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button onclick="shareCalculatedQuote()" class="flex-1 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center space-x-2 transition">
+                                <i class="fa-brands fa-whatsapp text-sm"></i>
+                                <span>Share WhatsApp Quote</span>
+                            </button>
+                            <button onclick="alert('Branded PDF generated in device cache via Android Canvas API.')" class="px-4 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center space-x-1.5 transition">
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <span>View PDF</span>
+                            </button>
+                        </div>
+                    </div>
+                `
+            },
+            tenants: {
+                icon: '<i class="fa-solid fa-building-user text-rose-400"></i>',
+                title: "Multi-Tenant Workspaces & Super Admin RBAC",
+                badge: "DATA PRIVACY",
+                subtitle: "Zero cross-contamination between studio branches and strict staff roles",
+                body: `
+                    <div class="space-y-4">
+                        <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                            <h5 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2.5">Switch Active Workspace</h5>
+                            <div class="grid grid-cols-3 gap-2 text-xs">
+                                <div class="bg-blue-600 p-2.5 rounded-xl text-white font-bold text-center cursor-pointer">Pune Studio (Main)</div>
+                                <div class="bg-slate-900 p-2.5 rounded-xl text-slate-300 font-semibold text-center cursor-pointer hover:bg-slate-800 transition">Mumbai Branch</div>
+                                <div class="bg-slate-900 p-2.5 rounded-xl text-slate-300 font-semibold text-center cursor-pointer hover:bg-slate-800 transition">Goa Destination</div>
+                            </div>
+                        </div>
+                        <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-xs space-y-2">
+                            <h5 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Staff Access Matrix</h5>
+                            <div class="flex items-center justify-between p-2 rounded-lg bg-slate-900">
+                                <div><span class="font-bold text-white">Cinematography Lead</span> <span class="text-slate-400 text-[10px]">(Camera &amp; Edit)</span></div>
+                                <span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 text-[10px] font-semibold">Assigned Tasks Only</span>
+                            </div>
+                            <div class="flex items-center justify-between p-2 rounded-lg bg-slate-900">
+                                <div><span class="font-bold text-white">Operations Head</span> <span class="text-slate-400 text-[10px]">(Studio Operations)</span></div>
+                                <span class="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold">Staff &amp; Shoot Operations</span>
+                            </div>
+                            <div class="flex items-center justify-between p-2 rounded-lg bg-slate-900">
+                                <div><span class="font-bold text-white">Studio Super Admin</span> <span class="text-slate-400 text-[10px]">(Owner)</span></div>
+                                <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px] font-semibold">Master P&L & Full Control</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        function openModuleModal(key) {
+            const data = moduleModalData[key];
+            if (!data) return;
+
+            document.getElementById('modalIcon').innerHTML = data.icon;
+            document.getElementById('modalTitle').innerText = data.title;
+            document.getElementById('modalBadge').innerText = data.badge;
+            document.getElementById('modalSubtitle').innerText = data.subtitle;
+            document.getElementById('modalDynamicBody').innerHTML = data.body;
+
+            const modal = document.getElementById('moduleModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModuleModal() {
+            const modal = document.getElementById('moduleModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            calculateQuote();
+            switchTourStep(0);
+        });
+
+        // APK Multi-Channel Download Handler
+        function getApkUrl() {
+            if (window.location.protocol === 'file:' || !window.location.origin || window.location.origin === 'null') {
+                return 'BOSS-app-debug.apk';
+            }
+            const path = window.location.pathname;
+            const currentDir = path.substring(0, path.lastIndexOf('/') + 1);
+            return window.location.origin + currentDir + 'BOSS-app-debug.apk';
+        }
+
+        function downloadApk(e) {
+            if (e && e.preventDefault) {
+                e.preventDefault();
+            }
+
+            const apkUrl = getApkUrl();
+
+            // Update modal direct link
+            const directLink = document.getElementById('directApkLink');
+            if (directLink) {
+                directLink.href = 'BOSS-app-debug.apk';
+            }
+
+            // 1. Programmatic click on hidden anchor with download attribute using relative path
+            try {
+                const hiddenAnchor = document.createElement('a');
+                hiddenAnchor.style.display = 'none';
+                hiddenAnchor.href = 'BOSS-app-debug.apk';
+                hiddenAnchor.setAttribute('download', 'BOSS-app-debug.apk');
+                hiddenAnchor.setAttribute('target', '_blank');
+                document.body.appendChild(hiddenAnchor);
+                hiddenAnchor.click();
+                setTimeout(() => {
+                    if (document.body.contains(hiddenAnchor)) {
+                        document.body.removeChild(hiddenAnchor);
+                    }
+                }, 1000);
+            } catch (err) {
+                console.warn('Hidden anchor execution error:', err);
+            }
+
+            // 2. If inside iframe on HTTP/HTTPS, trigger new window to bypass iframe download restriction
+            const isIframe = window.self !== window.top;
+            if (isIframe && window.location.protocol.startsWith('http')) {
+                try {
+                    window.open(apkUrl, '_blank');
+                } catch (err) {
+                    console.warn('window.open blocked:', err);
+                }
+            }
+
+            // 3. Open dedicated visual confirmation and fallback modal
+            openApkDownloadModal();
+        }
+
+        function openApkDownloadModal() {
+            const modal = document.getElementById('apkDownloadModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeApkDownloadModal() {
+            const modal = document.getElementById('apkDownloadModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function copyApkLink() {
+            const url = getApkUrl();
+            navigator.clipboard.writeText(url).then(() => {
+                const btnText = document.getElementById('copyBtnText');
+                if (btnText) {
+                    const original = btnText.innerText;
+                    btnText.innerText = 'Copied!';
+                    setTimeout(() => { btnText.innerText = original; }, 2000);
+                }
+            }).catch(() => {
+                prompt('Copy APK Download URL:', url);
+            });
+        }
+    </script>
+
+    <!-- Robust Download Initiation & Fallback Modal -->
+    <div id="apkDownloadModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden transition-opacity duration-300" onclick="closeApkDownloadModal()">
+        <div class="bg-slate-900 border border-blue-500/40 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative overflow-hidden" onclick="event.stopPropagation()">
+            <!-- Ambient Glow -->
+            <div class="absolute -top-12 -right-12 w-36 h-36 bg-blue-600/30 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="absolute -bottom-12 -left-12 w-36 h-36 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
+
+            <div class="flex items-center justify-between mb-5 relative z-10">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-blue-600/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-2xl">
+                        <i class="fa-brands fa-android"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-black text-white">Downloading BOSS APK</h3>
+                        <p class="text-xs text-emerald-400 font-semibold flex items-center space-x-1.5 mt-0.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                            <span>Direct file transfer initiated (24.8 MB)</span>
+                        </p>
+                    </div>
+                </div>
+                <button onclick="closeApkDownloadModal()" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4 text-xs text-slate-300 relative z-10">
+                <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2.5">
+                    <p class="text-sm font-semibold text-white flex items-center justify-between">
+                        <span>Direct APK Download</span>
+                        <span class="text-[10px] bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded font-mono">v3.0.0</span>
+                    </p>
+                    <p class="text-[11px] text-slate-400 leading-normal">
+                        Click below to download the package directly to your device:
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-2 pt-1">
+                        <a id="directApkLink" href="BOSS-app-debug.apk" download="BOSS-app-debug.apk" class="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-center flex items-center justify-center space-x-2 shadow-lg shadow-blue-600/30 transition transform hover:-translate-y-0.5">
+                            <i class="fa-solid fa-download"></i>
+                            <span>Download APK (24.8 MB)</span>
+                        </a>
+                        <button onclick="copyApkLink()" class="py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold flex items-center justify-center space-x-2 border border-slate-700 transition">
+                            <i class="fa-solid fa-copy"></i>
+                            <span id="copyBtnText">Copy Link</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Alternative Mirrors with relative paths -->
+                <div class="p-3 rounded-xl bg-slate-950/50 border border-slate-800/80 text-[11px]">
+                    <span class="text-slate-400 font-bold uppercase tracking-wider block mb-1.5">Direct Download Mirrors:</span>
+                    <div class="flex flex-wrap gap-2 text-blue-400">
+                        <a href="BOSS-app-debug.apk" download="BOSS-app-debug.apk" class="hover:underline font-bold text-emerald-400">Mirror 1 (Direct)</a>
+                        <span class="text-slate-600">•</span>
+                        <a href="./BOSS-app-debug.apk" download="BOSS-app-debug.apk" class="hover:underline">Mirror 2 (Local Path)</a>
+                        <span class="text-slate-600">•</span>
+                        <a href="../BOSS-app-debug.apk" download="BOSS-app-debug.apk" class="hover:underline">Mirror 3 (Root Path)</a>
+                    </div>
+                </div>
+
+                <!-- Android Security Tips -->
+                <div class="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300">
+                    <div class="font-bold flex items-center space-x-2 mb-1 text-xs">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>Android 30-Second Install:</span>
+                    </div>
+                    <p class="leading-relaxed text-[11px] text-emerald-200/90">
+                        When opening the downloaded file, if prompted with <em>"Chrome cannot install unknown apps"</em>, tap <strong>Settings &rarr; Toggle 'Allow from this source'</strong> &rarr; Tap <strong>Install</strong>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-6 flex items-center justify-between pt-2 border-t border-slate-800 relative z-10">
+                <span class="text-[11px] text-slate-400">File location in project: <code>/BOSS-app-debug.apk</code></span>
+                <button onclick="closeApkDownloadModal()" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs transition">
+                    Done
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

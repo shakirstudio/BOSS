@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOSS — Enterprise Studio Login & Role-Based Access Control</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        boss: {
+                            blue: '#2563EB',
+                            cyan: '#0EA5E9',
+                            dark: '#070B14',
+                            surface: '#0F172A',
+                            card: '#1E293B',
+                            border: '#334155',
+                            emerald: '#10B981',
+                            amber: '#F59E0B',
+                            rose: '#EF4444'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glow-radial {
+            background: radial-gradient(circle at center, rgba(37, 99, 235, 0.22) 0%, rgba(14, 165, 233, 0.08) 45%, transparent 70%);
+        }
+        .glow-secondary {
+            background: radial-gradient(circle at center, rgba(16, 185, 129, 0.15) 0%, transparent 60%);
+        }
+    </style>
+</head>
+<body class="bg-boss-dark text-slate-100 min-h-screen font-sans antialiased selection:bg-blue-600 selection:text-white relative overflow-x-hidden">
+
+    <!-- Ambient Lighting Effects -->
+    <div class="fixed top-0 left-1/4 w-[600px] h-[600px] glow-radial pointer-events-none blur-3xl -z-10"></div>
+    <div class="fixed bottom-0 right-1/4 w-[500px] h-[500px] glow-secondary pointer-events-none blur-3xl -z-10"></div>
+
+    <!-- Navigation Header -->
+    <header class="border-b border-slate-800/80 bg-slate-950/70 backdrop-blur-md sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="index.html" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-400 p-[1px] shadow-lg shadow-blue-500/20 group-hover:scale-105 transition transform">
+                    <div class="w-full h-full bg-slate-900 rounded-[11px] flex items-center justify-center">
+                        <span class="font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 tracking-wider text-sm">BOSS</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="text-base font-extrabold tracking-tight flex items-center space-x-1.5">
+                        <span class="text-white">B.O.S.S.</span>
+                        <span class="text-[10px] bg-blue-500/20 text-blue-300 font-mono px-1.5 py-0.5 rounded border border-blue-500/30">STUDIO PORTAL</span>
+                    </div>
+                    <p class="text-[10px] text-slate-400 -mt-0.5">Business Operations Studio System</p>
+                </div>
+            </a>
+
+            <div class="flex items-center space-x-3">
+                <a href="index.html" class="text-xs text-slate-400 hover:text-white px-3 py-1.5 rounded-lg hover:bg-slate-800/60 transition flex items-center space-x-1.5">
+                    <i class="fa-solid fa-arrow-left text-[11px]"></i>
+                    <span>Back to Portal</span>
+                </a>
+                <a href="BOSS-app-debug.apk" download="BOSS-app-debug.apk" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 flex items-center space-x-1.5 transition">
+                    <i class="fa-brands fa-android text-emerald-400"></i>
+                    <span>Download APK v3.0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="min-h-[calc(100vh-64px)] flex items-center justify-center p-4 sm:p-6 lg:p-8">
+        
+        <!-- SECTION 1: LOGIN CARD (Active when logged out) -->
+        <div id="loginSection" class="w-full max-w-md">
+
+            <!-- Registration Success Alert Banner -->
+            <div id="regSuccessBanner" class="hidden mb-4 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-start space-x-3">
+                <i class="fa-solid fa-circle-check text-emerald-400 mt-0.5 text-base flex-shrink-0"></i>
+                <div>
+                    <div class="font-bold text-sm text-emerald-300 mb-0.5">Account Created Successfully!</div>
+                    <p id="regSuccessMsgText" class="leading-relaxed text-emerald-200/90"></p>
+                </div>
+            </div>
+
+            <!-- Login Card -->
+            <div class="bg-slate-900/95 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-xl relative overflow-hidden">
+                <div class="text-center mb-6">
+                    <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-cyan-500 text-white shadow-xl shadow-blue-500/25 mb-3 text-2xl font-black">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h1 class="text-2xl font-extrabold text-white tracking-tight">Sign In to BOSS</h1>
+                    <p class="text-xs text-slate-400 mt-1">Enterprise Role-Based Access Control (RBAC)</p>
+                </div>
+
+                <!-- Alert / Error Message Banner -->
+                <div id="errorBanner" class="hidden mb-4 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs flex items-start space-x-2.5">
+                    <i class="fa-solid fa-circle-exclamation mt-0.5 text-sm flex-shrink-0"></i>
+                    <div id="errorMessage" class="font-medium leading-relaxed"></div>
+                </div>
+
+                <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+                    <!-- User ID / Username / Email / Mobile Field -->
+                    <div>
+                        <label for="emailInput" class="block text-xs font-semibold text-slate-300 mb-1.5">
+                            User ID / Username / Email / Mobile <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                <i class="fa-regular fa-user text-sm"></i>
+                            </div>
+                            <input 
+                                type="text" 
+                                id="emailInput" 
+                                required 
+                                placeholder="User ID, username, email, or mobile"
+                                class="w-full pl-10 pr-4 py-2.5 bg-slate-950/70 border border-slate-700/80 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Password Field with Show/Hide -->
+                    <div>
+                        <label for="passwordInput" class="block text-xs font-semibold text-slate-300 mb-1.5">
+                            Password <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                <i class="fa-solid fa-lock text-sm"></i>
+                            </div>
+                            <input 
+                                type="password" 
+                                id="passwordInput" 
+                                required 
+                                placeholder="••••••••"
+                                class="w-full pl-10 pr-10 py-2.5 bg-slate-950/70 border border-slate-700/80 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+                            />
+                            <button 
+                                type="button" 
+                                onclick="togglePasswordVisibility()" 
+                                class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-200 transition focus:outline-none"
+                                title="Toggle password visibility"
+                            >
+                                <i id="passwordToggleIcon" class="fa-regular fa-eye text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Role Selection Dropdown (Optional / Strict Guard) -->
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label for="roleSelect" class="block text-xs font-semibold text-slate-300">
+                                Assigned Role
+                            </label>
+                            <span class="text-[10px] text-blue-400 font-mono">RBAC Security Guard</span>
+                        </div>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                <i class="fa-solid fa-id-card-clip text-sm"></i>
+                            </div>
+                            <select 
+                                id="roleSelect" 
+                                class="w-full pl-10 pr-10 py-2.5 bg-slate-950/70 border border-slate-700/80 rounded-xl text-sm text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition appearance-none cursor-pointer"
+                            >
+                                <option value="">Auto-Detect from Account ▼</option>
+                                <option value="Admin">Admin (Full System Access)</option>
+                                <option value="Manager">Manager (Team & Operations)</option>
+                                <option value="Employee">Employee (Assigned Workload & Docs)</option>
+                            </select>
+                            <div class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Remember Me & Forgot Password -->
+                    <div class="flex items-center justify-between text-xs pt-1">
+                        <label class="flex items-center space-x-2 cursor-pointer select-none">
+                            <input type="checkbox" id="rememberMe" checked class="w-4 h-4 rounded bg-slate-950 border-slate-700 text-blue-600 focus:ring-blue-500 focus:ring-offset-0 cursor-pointer">
+                            <span class="text-slate-300">Remember Me</span>
+                        </label>
+                        <button type="button" onclick="openForgotPasswordModal()" class="text-blue-400 hover:text-blue-300 font-semibold transition">
+                            Forgot Password?
+                        </button>
+                    </div>
+
+                    <!-- Login Button -->
+                    <button 
+                        type="submit" 
+                        id="submitBtn" 
+                        class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-blue-600/30 flex items-center justify-center space-x-2 transition transform hover:-translate-y-0.5 focus:outline-none"
+                    >
+                        <i id="btnIcon" class="fa-solid fa-right-to-bracket"></i>
+                        <span id="btnText">Sign In to Workspace</span>
+                        <div id="btnSpinner" class="hidden w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    </button>
+                </form>
+
+                <!-- Create Account Button / Option -->
+                <div class="mt-4 pt-4 border-t border-slate-800">
+                    <button 
+                        type="button" 
+                        onclick="openRegisterModal()" 
+                        class="w-full py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700/80 text-blue-400 hover:text-blue-300 border border-blue-500/30 font-bold text-xs flex items-center justify-center space-x-2 transition"
+                    >
+                        <i class="fa-solid fa-user-plus"></i>
+                        <span>New User? Create Account</span>
+                    </button>
+                </div>
+
+                <!-- Security Footer Note -->
+                <div class="mt-4 text-[11px] text-slate-400 flex items-center space-x-2">
+                    <i class="fa-solid fa-lock text-emerald-400 flex-shrink-0"></i>
+                    <span>RBAC Protection: User roles and privileges are verified securely against the system database.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: AUTHENTICATED ROLE-BASED DASHBOARD (Shown after login) -->
+        <div id="dashboardSection" class="hidden w-full max-w-5xl space-y-6">
+            
+            <!-- Dashboard Header & Top Bar -->
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div class="flex items-center space-x-4">
+                    <div id="userAvatar" class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-blue-500/20">
+                        ST
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2.5">
+                            <h2 id="userFullName" class="text-xl font-bold text-white">Shakir Tamboli</h2>
+                            <span id="roleBadge" class="text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40">
+                                Admin
+                            </span>
+                            <span id="statusBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                                ACTIVE
+                            </span>
+                        </div>
+                        <p id="userDesignation" class="text-xs text-slate-400 mt-0.5">Super Admin & Managing Director • Executive Management</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-3 w-full md:w-auto justify-end">
+                    <a href="BOSS-app-debug.apk" download="BOSS-app-debug.apk" class="px-3.5 py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 text-xs font-bold flex items-center space-x-1.5 transition">
+                        <i class="fa-brands fa-android"></i>
+                        <span>Download APK</span>
+                    </a>
+                    <button onclick="handleLogout()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-rose-900/40 text-slate-300 hover:text-rose-300 border border-slate-700 hover:border-rose-700/50 text-xs font-bold flex items-center space-x-2 transition">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        <span>Log Out</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Role-Specific Action Grid -->
+            <div id="roleContent" class="space-y-6">
+                <!-- Dynamically populated based on authenticated role -->
+            </div>
+        </div>
+
+        <!-- SECTION 3: 403 ACCESS DENIED SCREEN (RBAC Guard Simulation) -->
+        <div id="accessDeniedSection" class="hidden w-full max-w-lg">
+            <div class="bg-slate-900 border border-rose-500/40 rounded-3xl p-6 sm:p-8 shadow-2xl text-center relative overflow-hidden">
+                <div class="w-20 h-20 mx-auto rounded-full bg-rose-500/10 border-2 border-rose-500/30 flex items-center justify-center text-rose-500 text-3xl mb-4">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+
+                <div class="inline-block px-3 py-1 rounded-full bg-rose-500/20 text-rose-400 text-xs font-mono font-bold tracking-widest uppercase mb-3">
+                    HTTP 403 • FORBIDDEN
+                </div>
+
+                <h2 class="text-2xl font-black text-white">403 — Access Denied</h2>
+                
+                <p id="deniedMessage" class="text-sm text-slate-400 mt-2 leading-relaxed">
+                    You do not have permission to access this module. Your authenticated role lacks the required authorization.
+                </p>
+
+                <div class="my-6 p-4 rounded-2xl bg-slate-950/80 border border-slate-800 text-left text-xs space-y-2">
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">Attempted Module:</span>
+                        <span id="attemptedModuleText" class="font-mono font-bold text-white">System Configuration</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">Your Current Role:</span>
+                        <span id="deniedUserRoleText" class="font-bold text-amber-400">Employee</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">Required Authorization:</span>
+                        <span id="requiredRoleText" class="font-bold text-rose-400">Admin Only</span>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <button onclick="backToDashboard()" class="w-full py-3 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm transition shadow-lg shadow-blue-600/30 flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Back to Dashboard</span>
+                    </button>
+                    <button onclick="handleLogout()" class="w-full py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition">
+                        Sign Out & Switch Account
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- CREATE ACCOUNT / REGISTRATION MODAL -->
+    <div id="registerModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden overflow-y-auto">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative my-8">
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-blue-600/20 text-blue-400 flex items-center justify-center text-lg font-bold">
+                        <i class="fa-solid fa-user-plus"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white">Create New Account</h3>
+                        <p class="text-xs text-slate-400">Join the BOSS Studio Team</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeRegisterModal()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <!-- Modal Registration Error Banner -->
+            <div id="regErrorBanner" class="hidden mb-4 p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs flex items-center space-x-2">
+                <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
+                <span id="regErrorMessage" class="font-medium"></span>
+            </div>
+
+            <form onsubmit="handleRegister(event)" class="space-y-3.5">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Full Name <span class="text-rose-500">*</span></label>
+                    <input type="text" id="regFullName" required placeholder="e.g. Shakir Tamboli or Studio Member" class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-700/80 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Username / User ID <span class="text-rose-500">*</span></label>
+                        <input type="text" id="regUsername" required placeholder="e.g. shakir_admin" class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-700/80 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Mobile Number <span class="text-rose-500">*</span></label>
+                        <input type="tel" id="regMobile" required placeholder="e.g. +91 98220 11223" class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-700/80 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Email Address <span class="text-rose-500">*</span></label>
+                    <input type="email" id="regEmail" required placeholder="name@bms.com" class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-700/80 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Department</label>
+                        <select id="regDept" class="w-full px-3 py-2.5 bg-slate-950 border border-slate-700/80 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500 cursor-pointer">
+                            <option value="Production & Post-Production">Production & Editing</option>
+                            <option value="Photography & Cinematography">Photography & Cinema</option>
+                            <option value="Album Designing">Album Designing</option>
+                            <option value="Studio Operations">Studio Operations</option>
+                            <option value="Accounts & Finance">Accounts & Billing</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Designation</label>
+                        <input type="text" id="regDesignation" placeholder="e.g. Lead Cinematographer" class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-700/80 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Password (Min 6 chars) <span class="text-rose-500">*</span></label>
+                        <input type="password" id="regPassword" required placeholder="••••••••" class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-700/80 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Confirm Password <span class="text-rose-500">*</span></label>
+                        <input type="password" id="regConfirmPassword" required placeholder="••••••••" class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-700/80 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500">
+                    </div>
+                </div>
+
+                <!-- Admin Approval Notice -->
+                <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[11px] flex items-start space-x-2">
+                    <i class="fa-solid fa-shield text-amber-400 mt-0.5"></i>
+                    <span><strong>Admin Approval Required:</strong> New accounts are given safe role 'Employee' with status 'Pending'. Administrator Shakir Tamboli must approve and activate your account before you can sign in.</span>
+                </div>
+
+                <div class="flex space-x-2 pt-2">
+                    <button type="button" onclick="closeRegisterModal()" class="w-1/3 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold">
+                        Cancel
+                    </button>
+                    <button type="submit" id="regSubmitBtn" class="w-2/3 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold shadow-md shadow-blue-600/30 flex items-center justify-center space-x-1.5">
+                        <i class="fa-solid fa-check"></i>
+                        <span>Submit Registration</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-sm w-full p-6 shadow-2xl relative">
+            <div class="text-center mb-4">
+                <div class="w-12 h-12 rounded-2xl bg-blue-600/20 text-blue-400 mx-auto flex items-center justify-center text-xl mb-3">
+                    <i class="fa-solid fa-key"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">Reset Password</h3>
+                <p class="text-xs text-slate-400 mt-1">Enter your registered email address to receive password reset instructions.</p>
+            </div>
+
+            <form onsubmit="handleForgotPassword(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Email Address</label>
+                    <input type="email" id="resetEmail" required placeholder="admin@bms.com" class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500">
+                </div>
+                <div id="resetSuccessMsg" class="hidden p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs">
+                    Reset instructions sent to your email. Check your inbox!
+                </div>
+                <div class="flex space-x-2 pt-2">
+                    <button type="button" onclick="closeForgotPasswordModal()" class="w-1/2 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold">
+                        Cancel
+                    </button>
+                    <button type="submit" class="w-1/2 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-md shadow-blue-600/30">
+                        Send Link
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase Web SDK Compat Libraries -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <!-- Security & RBAC JavaScript Logic -->
+    <script>
+        // Shared Firebase Cloud Backend Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAa8nVj2q8l1Nd_6RK0k3ng3PJSiL7Y0B4",
+            authDomain: "gen-lang-client-0601048347.firebaseapp.com",
+            projectId: "gen-lang-client-0601048347",
+            storageBucket: "gen-lang-client-0601048347.firebasestorage.app",
+            messagingSenderId: "10535878282",
+            appId: "1:10535878282:android:f6a02baec7898e6aaf7773"
+        };
+
+        let firestoreDb = null;
+        try {
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
+            firestoreDb = firebase.firestore();
+            console.log('[BOSS Cloud] Firebase initialized on Web Admin Panel');
+        } catch (err) {
+            console.warn('[BOSS Cloud] Firebase init note:', err);
+        }
+
+        const WORKSPACE_ID = "ws_lumiere_01";
+
+        // Database of Accounts (Initialized with actual configured Administrator and existing team)
+        const DEFAULT_ACCOUNTS = [
+            {
+                userId: 'emp_shakir',
+                email: 'shakirtamboli.pune11@gmail.com',
+                username: 'admin',
+                password: 'admin123',
+                mobile: '+91 98234 56789',
+                fullName: 'Shakir Tamboli',
+                actualRole: 'Admin',
+                status: 'Active',
+                designation: 'Super Admin & Managing Director',
+                department: 'Executive Management',
+                avatar: 'ST',
+                registeredAt: '01 Jan 2022'
+            },
+            {
+                userId: 'emp_shakir_alt',
+                email: 'admin@bms.com',
+                username: 'shakir',
+                password: 'admin123',
+                mobile: '+91 98234 56780',
+                fullName: 'Shakir Tamboli (Admin)',
+                actualRole: 'Admin',
+                status: 'Active',
+                designation: 'Managing Director',
+                department: 'Executive Management',
+                avatar: 'ST',
+                registeredAt: '01 Jan 2022'
+            }
+        ];
+
+
+        // Load accounts from LocalStorage or default
+        function getAccountsDB() {
+            try {
+                const stored = localStorage.getItem('boss_accounts_db');
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        // Purge legacy demo employees
+                        const clean = parsed.filter(u => u.userId !== 'emp_priya' && u.userId !== 'emp_rahul');
+                        return clean.length > 0 ? clean : DEFAULT_ACCOUNTS;
+                    }
+                }
+            } catch (e) {}
+            return DEFAULT_ACCOUNTS;
+        }
+
+        function saveAccountsDB(accounts) {
+            try {
+                localStorage.setItem('boss_accounts_db', JSON.stringify(accounts));
+            } catch (e) {}
+        }
+
+        let ACCOUNTS_DB = getAccountsDB();
+        let currentAuthenticatedUser = null;
+
+        function togglePasswordVisibility() {
+            const pwd = document.getElementById('passwordInput');
+            const icon = document.getElementById('passwordToggleIcon');
+            if (pwd.type === 'password') {
+                pwd.type = 'text';
+                icon.className = 'fa-regular fa-eye-slash text-sm';
+            } else {
+                pwd.type = 'password';
+                icon.className = 'fa-regular fa-eye text-sm';
+            }
+        }
+
+        function showError(msg) {
+            const banner = document.getElementById('errorBanner');
+            const text = document.getElementById('errorMessage');
+            text.innerText = msg;
+            banner.classList.remove('hidden');
+        }
+
+        function clearError() {
+            const banner = document.getElementById('errorBanner');
+            banner.classList.add('hidden');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            clearError();
+
+            const rawIdentifier = document.getElementById('emailInput').value.trim();
+            const cleanIdentifier = rawIdentifier.toLowerCase();
+            const cleanNumeric = rawIdentifier.replace(/\D/g, '');
+            const password = document.getElementById('passwordInput').value.trim();
+            const selectedRole = document.getElementById('roleSelect').value;
+
+            if (!rawIdentifier) {
+                showError('Please enter your User ID, Username, Email, or Mobile Number.');
+                return;
+            }
+            if (!password) {
+                showError('Please enter your password.');
+                return;
+            }
+
+            // Show Loading State
+            const btn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const btnIcon = document.getElementById('btnIcon');
+            const spinner = document.getElementById('btnSpinner');
+            
+            btn.disabled = true;
+            btnText.innerText = 'Authenticating...';
+            btnIcon.classList.add('hidden');
+            spinner.classList.remove('hidden');
+
+            setTimeout(() => {
+                // Find account in Database matching Username, Email, User ID, or Mobile
+                const account = ACCOUNTS_DB.find(u => {
+                    const matchEmail = u.email && u.email.toLowerCase() === cleanIdentifier;
+                    const matchUser = u.username && u.username.toLowerCase() === cleanIdentifier;
+                    const matchId = u.userId && u.userId.toLowerCase() === cleanIdentifier;
+                    const matchMobile = cleanNumeric.length >= 8 && u.mobile && u.mobile.replace(/\D/g, '').includes(cleanNumeric);
+                    return matchEmail || matchUser || matchId || matchMobile;
+                });
+
+                if (!account) {
+                    resetButton();
+                    showError('Account not found with the provided credentials. Please check your User ID, Email, or Mobile.');
+                    return;
+                }
+
+                // Verify Account Approval Status
+                if (account.status === 'Pending') {
+                    resetButton();
+                    showError('Account Approval Pending: Your registration has not been approved by the Administrator (Shakir Tamboli) yet. Please contact your studio admin.');
+                    return;
+                }
+                if (account.status === 'Inactive' || account.status === 'Rejected') {
+                    resetButton();
+                    showError(`Account Access Restricted: Your account status is '${account.status}'. Please contact the Administrator.`);
+                    return;
+                }
+
+                // Verify Password
+                if (account.password !== password) {
+                    resetButton();
+                    showError('Invalid password. Please check your password and try again.');
+                    return;
+                }
+
+                // Role Guard Validation (if user specified a role)
+                if (selectedRole && account.actualRole !== selectedRole) {
+                    resetButton();
+                    showError(`Invalid role selected. Account '${account.fullName}' is registered as '${account.actualRole}', but '${selectedRole}' was selected.`);
+                    return;
+                }
+
+                // SUCCESS: Logged in
+                resetButton();
+                currentAuthenticatedUser = account;
+                renderDashboard(account);
+
+            }, 400);
+        }
+
+        function resetButton() {
+            const btn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const btnIcon = document.getElementById('btnIcon');
+            const spinner = document.getElementById('btnSpinner');
+
+            btn.disabled = false;
+            btnText.innerText = 'Sign In to Workspace';
+            btnIcon.classList.remove('hidden');
+            spinner.classList.add('hidden');
+        }
+
+        function renderDashboard(user) {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('accessDeniedSection').classList.add('hidden');
+            document.getElementById('dashboardSection').classList.remove('hidden');
+
+            document.getElementById('userAvatar').innerText = user.avatar || user.fullName.substring(0, 2).toUpperCase();
+            document.getElementById('userFullName').innerText = user.fullName;
+            document.getElementById('userDesignation').innerText = `${user.designation} • ${user.department}`;
+
+            const roleBadge = document.getElementById('roleBadge');
+            roleBadge.innerText = user.actualRole;
+            if (user.actualRole === 'Admin') {
+                roleBadge.className = 'text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40';
+            } else if (user.actualRole === 'Manager') {
+                roleBadge.className = 'text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/40';
+            } else {
+                roleBadge.className = 'text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+            }
+
+            const container = document.getElementById('roleContent');
+
+            if (user.actualRole === 'Admin') {
+                // Count Pending Users
+                const pendingUsers = ACCOUNTS_DB.filter(u => u.status === 'Pending');
+                
+                let pendingSectionHtml = '';
+                if (pendingUsers.length > 0) {
+                    pendingSectionHtml = `
+                        <div class="bg-amber-950/30 border border-amber-500/40 rounded-3xl p-6 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold">
+                                        <i class="fa-solid fa-hourglass-start"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-base font-bold text-amber-300">Pending User Registrations (${pendingUsers.length})</h4>
+                                        <p class="text-xs text-amber-200/70">New users awaiting Administrator approval to sign in</p>
+                                    </div>
+                                </div>
+                                <span class="text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/40 px-2.5 py-0.5 rounded-full font-mono font-bold">ACTION REQUIRED</span>
+                            </div>
+                            <div class="divide-y divide-slate-800">
+                                ${pendingUsers.map(pu => `
+                                    <div class="py-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                                        <div>
+                                            <div class="font-bold text-white text-sm">${pu.fullName} <span class="text-xs font-normal text-slate-400">(@${pu.username})</span></div>
+                                            <div class="text-xs text-slate-400">${pu.designation} • ${pu.department}</div>
+                                            <div class="text-[11px] text-slate-500 font-mono mt-0.5">Email: ${pu.email} | Phone: ${pu.mobile}</div>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <button onclick="adminApproveUser('${pu.userId}')" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center space-x-1">
+                                                <i class="fa-solid fa-check text-[10px]"></i>
+                                                <span>Approve</span>
+                                            </button>
+                                            <button onclick="adminRejectUser('${pu.userId}')" class="px-3 py-1.5 rounded-lg bg-rose-600/30 hover:bg-rose-600/50 text-rose-300 border border-rose-500/40 text-xs font-semibold transition flex items-center space-x-1">
+                                                <i class="fa-solid fa-xmark text-[10px]"></i>
+                                                <span>Reject</span>
+                                            </button>
+                                            <button onclick="adminPromptRole('${pu.userId}')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition">
+                                                Assign Role
+                                            </button>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                            <span class="text-xs font-semibold text-slate-400">Total System Users</span>
+                            <div class="text-3xl font-black text-white">${ACCOUNTS_DB.length}</div>
+                            <span class="text-[11px] text-emerald-400 font-semibold">${ACCOUNTS_DB.filter(u=>u.status==='Active').length} Active • ${pendingUsers.length} Pending</span>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                            <span class="text-xs font-semibold text-slate-400">Gross Studio Revenue</span>
+                            <div class="text-3xl font-black text-emerald-400">₹42,50,000</div>
+                            <span class="text-[11px] text-slate-400 font-semibold">FY 2026-27 Ledgers</span>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                            <span class="text-xs font-semibold text-slate-400">Audit Status</span>
+                            <div class="text-3xl font-black text-blue-400">Compliant</div>
+                            <span class="text-[11px] text-blue-300 font-semibold">0 Security Violations</span>
+                        </div>
+                    </div>
+
+                    ${pendingSectionHtml}
+
+                    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-base font-bold text-white flex items-center space-x-2">
+                                <i class="fa-solid fa-users text-blue-400"></i>
+                                <span>User Directory & Role Access Management</span>
+                            </h3>
+                            <button onclick="openRegisterModal()" class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition flex items-center space-x-1.5">
+                                <i class="fa-solid fa-plus text-[10px]"></i>
+                                <span>New Account</span>
+                            </button>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs">
+                                <thead>
+                                    <tr class="text-slate-400 border-b border-slate-800 pb-2">
+                                        <th class="py-2.5 font-semibold">Name & ID</th>
+                                        <th class="py-2.5 font-semibold">Contact</th>
+                                        <th class="py-2.5 font-semibold">Role</th>
+                                        <th class="py-2.5 font-semibold">Status</th>
+                                        <th class="py-2.5 font-semibold text-right">Admin Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-800/60">
+                                    ${ACCOUNTS_DB.map(acc => `
+                                        <tr class="hover:bg-slate-800/30 transition">
+                                            <td class="py-3">
+                                                <div class="font-bold text-white">${acc.fullName}</div>
+                                                <div class="text-[11px] text-slate-400">@${acc.username} • ${acc.designation}</div>
+                                            </td>
+                                            <td class="py-3">
+                                                <div class="text-slate-300">${acc.email}</div>
+                                                <div class="text-[11px] text-slate-500">${acc.mobile}</div>
+                                            </td>
+                                            <td class="py-3">
+                                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                                                    acc.actualRole === 'Admin' ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30' :
+                                                    acc.actualRole === 'Manager' ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' :
+                                                    'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                                                }">${acc.actualRole}</span>
+                                            </td>
+                                            <td class="py-3">
+                                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                                                    acc.status === 'Active' ? 'bg-emerald-500/20 text-emerald-300' :
+                                                    acc.status === 'Pending' ? 'bg-amber-500/20 text-amber-300' :
+                                                    'bg-rose-500/20 text-rose-300'
+                                                }">${acc.status}</span>
+                                            </td>
+                                            <td class="py-3 text-right space-x-1.5">
+                                                ${acc.status === 'Pending' ? `
+                                                    <button onclick="adminApproveUser('${acc.userId}')" class="px-2.5 py-1 rounded bg-emerald-600 text-white font-bold hover:bg-emerald-500 transition text-[11px]">Approve</button>
+                                                ` : acc.status === 'Active' ? `
+                                                    <button onclick="adminToggleStatus('${acc.userId}', 'Inactive')" class="px-2 py-1 rounded bg-slate-800 text-slate-400 hover:text-rose-300 transition text-[11px]">Deactivate</button>
+                                                ` : `
+                                                    <button onclick="adminToggleStatus('${acc.userId}', 'Active')" class="px-2 py-1 rounded bg-emerald-900/40 text-emerald-300 border border-emerald-700/40 hover:bg-emerald-800/40 transition text-[11px]">Activate</button>
+                                                `}
+                                                <button onclick="adminPromptRole('${acc.userId}')" class="px-2 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700 transition text-[11px]">Role</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+                        <h3 class="text-base font-bold text-white mb-4 flex items-center space-x-2">
+                            <i class="fa-solid fa-crown text-rose-500"></i>
+                            <span>Admin Controlled Management Modules (Full Access)</span>
+                        </h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 text-xs">
+                            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center space-x-3 cursor-pointer hover:border-blue-500 transition">
+                                <i class="fa-solid fa-users-gear text-blue-400 text-lg"></i>
+                                <div><div class="font-bold text-white">User Management</div><div class="text-[10px] text-slate-500">Full Access</div></div>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center space-x-3 cursor-pointer hover:border-blue-500 transition">
+                                <i class="fa-solid fa-user-tie text-indigo-400 text-lg"></i>
+                                <div><div class="font-bold text-white">Manager Management</div><div class="text-[10px] text-slate-500">Full Access</div></div>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center space-x-3 cursor-pointer hover:border-blue-500 transition">
+                                <i class="fa-solid fa-people-group text-emerald-400 text-lg"></i>
+                                <div><div class="font-bold text-white">Employee Management</div><div class="text-[10px] text-slate-500">Full Access</div></div>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center space-x-3 cursor-pointer hover:border-blue-500 transition">
+                                <i class="fa-solid fa-key text-amber-400 text-lg"></i>
+                                <div><div class="font-bold text-white">Roles & Permissions</div><div class="text-[10px] text-slate-500">Full Access</div></div>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center space-x-3 cursor-pointer hover:border-blue-500 transition">
+                                <i class="fa-solid fa-chart-line text-cyan-400 text-lg"></i>
+                                <div><div class="font-bold text-white">Reports & Analytics</div><div class="text-[10px] text-slate-500">Full Access</div></div>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center space-x-3 cursor-pointer hover:border-blue-500 transition">
+                                <i class="fa-solid fa-file-shield text-rose-400 text-lg"></i>
+                                <div><div class="font-bold text-white">Audit Logs</div><div class="text-[10px] text-slate-500">Full Access</div></div>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center space-x-3 cursor-pointer hover:border-blue-500 transition">
+                                <i class="fa-solid fa-sliders text-purple-400 text-lg"></i>
+                                <div><div class="font-bold text-white">System Config</div><div class="text-[10px] text-slate-500">Full Access</div></div>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center space-x-3 cursor-pointer hover:border-blue-500 transition">
+                                <i class="fa-solid fa-gear text-slate-400 text-lg"></i>
+                                <div><div class="font-bold text-white">Settings</div><div class="text-[10px] text-slate-500">Full Access</div></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (user.actualRole === 'Manager') {
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                            <span class="text-xs font-semibold text-slate-400">Team Members Supervised</span>
+                            <div class="text-3xl font-black text-white">12 Staff</div>
+                            <span class="text-[11px] text-blue-400 font-semibold">Photo/Video Operations</span>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                            <span class="text-xs font-semibold text-slate-400">Today's Attendance</span>
+                            <div class="text-3xl font-black text-emerald-400">11 Present</div>
+                            <span class="text-[11px] text-slate-400 font-semibold">1 On Approved Leave</span>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                            <span class="text-xs font-semibold text-slate-400">Active Shoot Tasks</span>
+                            <div class="text-3xl font-black text-amber-400">8 In-Progress</div>
+                            <span class="text-[11px] text-amber-300 font-semibold">2 Deadlines Today</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+                        <h3 class="text-base font-bold text-white mb-4 flex items-center space-x-2">
+                            <i class="fa-solid fa-user-tie text-blue-500"></i>
+                            <span>Manager Permitted Modules</span>
+                        </h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 text-xs">
+                            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center space-x-3 cursor-pointer hover:border-blue-500 transition">
+                                <i class="fa-solid fa-people-group text-emerald-400 text-lg"></i>
+                                <div><div class="font-bold text-white">Employee Mgmt</div><div class="text-[10px] text-slate-500">Team Roster</div></div>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center space-x-3 cursor-pointer hover:border-blue-500 transition">
+                                <i class="fa-solid fa-calendar-check text-blue-400 text-lg"></i>
+                                <div><div class="font-bold text-white">Attendance</div><div class="text-[10px] text-slate-500">Daily Logs</div></div>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center space-x-3 cursor-pointer hover:border-blue-500 transition">
+                                <i class="fa-solid fa-list-check text-amber-400 text-lg"></i>
+                                <div><div class="font-bold text-white">Task Management</div><div class="text-[10px] text-slate-500">Assign & Review</div></div>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center space-x-3 cursor-pointer hover:border-blue-500 transition">
+                                <i class="fa-solid fa-chart-pie text-cyan-400 text-lg"></i>
+                                <div><div class="font-bold text-white">Team Reports</div><div class="text-[10px] text-slate-500">Productivity</div></div>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center space-x-3 cursor-pointer hover:border-blue-500 transition">
+                                <i class="fa-solid fa-bell text-yellow-400 text-lg"></i>
+                                <div><div class="font-bold text-white">Notifications</div><div class="text-[10px] text-slate-500">Operational Alerts</div></div>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center space-x-3 cursor-pointer hover:border-blue-500 transition">
+                                <i class="fa-solid fa-circle-user text-purple-400 text-lg"></i>
+                                <div><div class="font-bold text-white">Profile</div><div class="text-[10px] text-slate-500">Account Details</div></div>
+                            </div>
+                            <div onclick="triggerRestrictedAccess('System Configuration', 'Super Admin Only')" class="p-3.5 rounded-xl bg-rose-950/20 border border-rose-900/40 flex items-center space-x-3 cursor-pointer hover:bg-rose-900/30 transition">
+                                <i class="fa-solid fa-ban text-rose-500 text-lg"></i>
+                                <div><div class="font-bold text-rose-300">System Config</div><div class="text-[10px] text-rose-400/80">🔒 Admin Restricted</div></div>
+                            </div>
+                            <div onclick="triggerRestrictedAccess('Audit Logs', 'Super Admin Only')" class="p-3.5 rounded-xl bg-rose-950/20 border border-rose-900/40 flex items-center space-x-3 cursor-pointer hover:bg-rose-900/30 transition">
+                                <i class="fa-solid fa-ban text-rose-500 text-lg"></i>
+                                <div><div class="font-bold text-rose-300">Audit Logs</div><div class="text-[10px] text-rose-400/80">🔒 Admin Restricted</div></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Employee Dashboard
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                            <span class="text-xs font-semibold text-slate-400">My Assigned Tasks</span>
+                            <div class="text-3xl font-black text-emerald-400">4 Active</div>
+                            <span class="text-[11px] text-slate-400 font-semibold">Wedding Teaser & Album Edit</span>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                            <span class="text-xs font-semibold text-slate-400">My Attendance</span>
+                            <div class="text-3xl font-black text-blue-400">Present</div>
+                            <span class="text-[11px] text-emerald-400 font-semibold">Clocked In at 09:30 AM</span>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                            <span class="text-xs font-semibold text-slate-400">My Documents</span>
+                            <div class="text-3xl font-black text-cyan-400">12 Files</div>
+                            <span class="text-[11px] text-slate-400 font-semibold">ID Proof & Tax Slips</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+                        <h3 class="text-base font-bold text-white mb-4 flex items-center space-x-2">
+                            <i class="fa-solid fa-id-badge text-emerald-500"></i>
+                            <span>Employee Permitted Modules</span>
+                        </h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 text-xs">
+                            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center space-x-3 cursor-pointer hover:border-emerald-500 transition">
+                                <i class="fa-solid fa-list-check text-emerald-400 text-lg"></i>
+                                <div><div class="font-bold text-white">My Tasks</div><div class="text-[10px] text-slate-500">Personal Workload</div></div>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center space-x-3 cursor-pointer hover:border-emerald-500 transition">
+                                <i class="fa-solid fa-clock text-blue-400 text-lg"></i>
+                                <div><div class="font-bold text-white">My Attendance</div><div class="text-[10px] text-slate-500">Clock In / Leave</div></div>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center space-x-3 cursor-pointer hover:border-emerald-500 transition">
+                                <i class="fa-solid fa-folder-closed text-cyan-400 text-lg"></i>
+                                <div><div class="font-bold text-white">My Documents</div><div class="text-[10px] text-slate-500">Contracts & Slips</div></div>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center space-x-3 cursor-pointer hover:border-emerald-500 transition">
+                                <i class="fa-solid fa-circle-user text-purple-400 text-lg"></i>
+                                <div><div class="font-bold text-white">My Profile</div><div class="text-[10px] text-slate-500">Personal Info</div></div>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center space-x-3 cursor-pointer hover:border-emerald-500 transition">
+                                <i class="fa-solid fa-bell text-yellow-400 text-lg"></i>
+                                <div><div class="font-bold text-white">Notifications</div><div class="text-[10px] text-slate-500">Assignment Alerts</div></div>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center space-x-3 cursor-pointer hover:border-emerald-500 transition">
+                                <i class="fa-solid fa-file-lines text-indigo-400 text-lg"></i>
+                                <div><div class="font-bold text-white">Personal Reports</div><div class="text-[10px] text-slate-500">Monthly Hours</div></div>
+                            </div>
+                            <div onclick="triggerRestrictedAccess('User Management', 'Admin Only')" class="p-3.5 rounded-xl bg-rose-950/20 border border-rose-900/40 flex items-center space-x-3 cursor-pointer hover:bg-rose-900/30 transition">
+                                <i class="fa-solid fa-ban text-rose-500 text-lg"></i>
+                                <div><div class="font-bold text-rose-300">User Mgmt</div><div class="text-[10px] text-rose-400/80">🔒 Admin Restricted</div></div>
+                            </div>
+                            <div onclick="triggerRestrictedAccess('Financial Ledgers', 'Admin Only')" class="p-3.5 rounded-xl bg-rose-950/20 border border-rose-900/40 flex items-center space-x-3 cursor-pointer hover:bg-rose-900/30 transition">
+                                <i class="fa-solid fa-ban text-rose-500 text-lg"></i>
+                                <div><div class="font-bold text-rose-300">Finances</div><div class="text-[10px] text-rose-400/80">🔒 Admin Restricted</div></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Admin Approval Functions with Cloud Firestore Sync
+        function adminApproveUser(userId) {
+            const acc = ACCOUNTS_DB.find(u => u.userId === userId);
+            if (acc) {
+                acc.status = 'Active';
+                saveAccountsDB(ACCOUNTS_DB);
+                if (firestoreDb) {
+                    firestoreDb.collection('workspaces').doc(WORKSPACE_ID).collection('employees').doc(userId)
+                        .set({ status: 'Active', updatedAt: Date.now() }, { merge: true }).catch(() => {});
+                }
+                renderDashboard(currentAuthenticatedUser);
+            }
+        }
+
+        function adminRejectUser(userId) {
+            const acc = ACCOUNTS_DB.find(u => u.userId === userId);
+            if (acc) {
+                acc.status = 'Rejected';
+                saveAccountsDB(ACCOUNTS_DB);
+                if (firestoreDb) {
+                    firestoreDb.collection('workspaces').doc(WORKSPACE_ID).collection('employees').doc(userId)
+                        .set({ status: 'Rejected', updatedAt: Date.now() }, { merge: true }).catch(() => {});
+                }
+                renderDashboard(currentAuthenticatedUser);
+            }
+        }
+
+        function adminToggleStatus(userId, newStatus) {
+            const acc = ACCOUNTS_DB.find(u => u.userId === userId);
+            if (acc) {
+                acc.status = newStatus;
+                saveAccountsDB(ACCOUNTS_DB);
+                if (firestoreDb) {
+                    firestoreDb.collection('workspaces').doc(WORKSPACE_ID).collection('employees').doc(userId)
+                        .set({ status: newStatus, updatedAt: Date.now() }, { merge: true }).catch(() => {});
+                }
+                renderDashboard(currentAuthenticatedUser);
+            }
+        }
+
+        function adminPromptRole(userId) {
+            const acc = ACCOUNTS_DB.find(u => u.userId === userId);
+            if (!acc) return;
+            const newRole = prompt(`Assign role for ${acc.fullName} (Admin, Manager, or Employee):`, acc.actualRole);
+            if (newRole && ['Admin', 'Manager', 'Employee'].includes(newRole.trim())) {
+                acc.actualRole = newRole.trim();
+                saveAccountsDB(ACCOUNTS_DB);
+                if (firestoreDb) {
+                    firestoreDb.collection('workspaces').doc(WORKSPACE_ID).collection('employees').doc(userId)
+                        .set({ role: newRole.trim(), updatedAt: Date.now() }, { merge: true }).catch(() => {});
+                }
+                renderDashboard(currentAuthenticatedUser);
+            } else if (newRole) {
+                alert('Invalid role! Must be Admin, Manager, or Employee.');
+            }
+        }
+
+        // Trigger 403 Forbidden Screen for unauthorized actions
+        function triggerRestrictedAccess(moduleName, requiredRole) {
+            document.getElementById('dashboardSection').classList.add('hidden');
+            document.getElementById('accessDeniedSection').classList.remove('hidden');
+
+            document.getElementById('attemptedModuleText').innerText = moduleName;
+            document.getElementById('deniedUserRoleText').innerText = currentAuthenticatedUser ? currentAuthenticatedUser.actualRole : 'Employee';
+            document.getElementById('requiredRoleText').innerText = requiredRole;
+            document.getElementById('deniedMessage').innerText = `You do not have permission to access "${moduleName}". Your authenticated role (${currentAuthenticatedUser ? currentAuthenticatedUser.actualRole : 'Employee'}) lacks required authorization under Role-Based Access Control (RBAC).`;
+        }
+
+        function backToDashboard() {
+            document.getElementById('accessDeniedSection').classList.add('hidden');
+            document.getElementById('dashboardSection').classList.remove('hidden');
+        }
+
+        function handleLogout() {
+            currentAuthenticatedUser = null;
+            document.getElementById('dashboardSection').classList.add('hidden');
+            document.getElementById('accessDeniedSection').classList.add('hidden');
+            document.getElementById('loginSection').classList.remove('hidden');
+            document.getElementById('loginForm').reset();
+            clearError();
+        }
+
+        // Register Modal Helpers
+        function openRegisterModal() {
+            document.getElementById('registerModal').classList.remove('hidden');
+            document.getElementById('regErrorBanner').classList.add('hidden');
+        }
+
+        function closeRegisterModal() {
+            document.getElementById('registerModal').classList.add('hidden');
+            document.getElementById('regErrorBanner').classList.add('hidden');
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const fullName = document.getElementById('regFullName').value.trim();
+            const username = document.getElementById('regUsername').value.trim().toLowerCase();
+            const mobile = document.getElementById('regMobile').value.trim();
+            const email = document.getElementById('regEmail').value.trim().toLowerCase();
+            const dept = document.getElementById('regDept').value;
+            const desig = document.getElementById('regDesignation').value.trim() || 'Staff Member';
+            const password = document.getElementById('regPassword').value;
+            const confirm = document.getElementById('regConfirmPassword').value;
+
+            const errBanner = document.getElementById('regErrorBanner');
+            const errMsg = document.getElementById('regErrorMessage');
+
+            if (!fullName || !username || !mobile || !email || !password || !confirm) {
+                errMsg.innerText = 'All marked fields are required.';
+                errBanner.classList.remove('hidden');
+                return;
+            }
+
+            if (!email.includes('@') || !email.includes('.')) {
+                errMsg.innerText = 'Please enter a valid email address.';
+                errBanner.classList.remove('hidden');
+                return;
+            }
+
+            const numericMobile = mobile.replace(/\D/g, '');
+            if (numericMobile.length < 10) {
+                errMsg.innerText = 'Please enter a valid 10-digit mobile number.';
+                errBanner.classList.remove('hidden');
+                return;
+            }
+
+            if (password.length < 6) {
+                errMsg.innerText = 'Password must be at least 6 characters long.';
+                errBanner.classList.remove('hidden');
+                return;
+            }
+
+            if (password !== confirm) {
+                errMsg.innerText = 'Password and Confirm Password do not match.';
+                errBanner.classList.remove('hidden');
+                return;
+            }
+
+            // Check uniqueness
+            if (ACCOUNTS_DB.some(u => u.username && u.username.toLowerCase() === username)) {
+                errMsg.innerText = `Username '${username}' is already registered. Please choose another.`;
+                errBanner.classList.remove('hidden');
+                return;
+            }
+
+            if (ACCOUNTS_DB.some(u => u.email && u.email.toLowerCase() === email)) {
+                errMsg.innerText = `Email '${email}' is already registered.`;
+                errBanner.classList.remove('hidden');
+                return;
+            }
+
+            if (ACCOUNTS_DB.some(u => u.mobile && u.mobile.replace(/\D/g, '') === numericMobile)) {
+                errMsg.innerText = `Mobile number '${mobile}' is already registered.`;
+                errBanner.classList.remove('hidden');
+                return;
+            }
+
+            // Create new safe account with role 'Employee' and status 'Pending'
+            const newAcc = {
+                userId: 'emp_' + Math.random().toString(36).substring(2, 9),
+                email: email,
+                username: username,
+                password: password,
+                mobile: mobile,
+                fullName: fullName,
+                actualRole: 'Employee', // Safe default
+                status: 'Pending', // Requires Admin approval!
+                designation: desig,
+                department: dept,
+                avatar: fullName.substring(0, 2).toUpperCase(),
+                registeredAt: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+            };
+
+            ACCOUNTS_DB.push(newAcc);
+            saveAccountsDB(ACCOUNTS_DB);
+
+            // Push to Cloud Firestore for shared synchronization with Android App
+            if (firestoreDb) {
+                firestoreDb.collection('workspaces').doc(WORKSPACE_ID).collection('employees').doc(newAcc.userId)
+                    .set({
+                        id: newAcc.userId,
+                        workspaceId: WORKSPACE_ID,
+                        employeeCode: 'BOSS-' + Math.floor(100 + Math.random() * 900),
+                        name: newAcc.fullName,
+                        mobile: newAcc.mobile,
+                        email: newAcc.email,
+                        department: newAcc.department,
+                        designation: newAcc.designation,
+                        role: newAcc.actualRole,
+                        joiningDate: newAcc.registeredAt,
+                        status: newAcc.status,
+                        loginUsername: newAcc.username,
+                        loginPassword: newAcc.password,
+                        createdAt: Date.now()
+                    }, { merge: true }).catch(err => console.warn('Cloud sync error on registration:', err));
+            }
+
+            closeRegisterModal();
+
+            // Show success message and redirect to login page (manual login required)
+            const banner = document.getElementById('regSuccessBanner');
+            const msg = document.getElementById('regSuccessMsgText');
+            msg.innerHTML = `Welcome <strong>${fullName}</strong>! Your account registration is submitted. Because BOSS is a studio operating system, your account has safe role <strong>'Employee'</strong> and is <strong>Pending Administrator Approval</strong>. Contact Administrator <strong>Shakir Tamboli</strong> to activate your login.`;
+            banner.classList.remove('hidden');
+
+            // Reset inputs
+            document.getElementById('emailInput').value = '';
+            document.getElementById('passwordInput').value = '';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Live bidirectional cloud synchronization with Android App database
+        function syncCloudAccounts() {
+            if (!firestoreDb) return;
+            firestoreDb.collection('workspaces').doc(WORKSPACE_ID).collection('employees')
+                .onSnapshot((snapshot) => {
+                    let updated = false;
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        const existingIdx = ACCOUNTS_DB.findIndex(u => u.userId === doc.id || (u.email && data.email && u.email.toLowerCase() === data.email.toLowerCase()));
+                        if (existingIdx >= 0) {
+                            ACCOUNTS_DB[existingIdx].actualRole = data.role || ACCOUNTS_DB[existingIdx].actualRole;
+                            ACCOUNTS_DB[existingIdx].status = data.status || ACCOUNTS_DB[existingIdx].status;
+                            ACCOUNTS_DB[existingIdx].fullName = data.name || ACCOUNTS_DB[existingIdx].fullName;
+                            updated = true;
+                        } else if (data.name) {
+                            ACCOUNTS_DB.push({
+                                userId: doc.id,
+                                email: data.email || `${data.loginUsername || 'user'}@bms.com`,
+                                username: data.loginUsername || doc.id,
+                                password: data.loginPassword || 'admin123',
+                                mobile: data.mobile || '+91 98234 56789',
+                                fullName: data.name,
+                                actualRole: data.role || 'Employee',
+                                status: data.status || 'Active',
+                                designation: data.designation || 'Staff',
+                                department: data.department || 'Management',
+                                avatar: (data.name || 'ST').substring(0, 2).toUpperCase(),
+                                registeredAt: data.joiningDate || '01 Jan 2026'
+                            });
+                            updated = true;
+                        }
+                    });
+                    if (updated) {
+                        saveAccountsDB(ACCOUNTS_DB);
+                        if (currentAuthenticatedUser && currentAuthenticatedUser.actualRole === 'Admin') {
+                            renderDashboard(currentAuthenticatedUser);
+                        }
+                    }
+                }, (err) => {
+                    console.warn('[BOSS Cloud] Firestore listener notice:', err);
+                });
+        }
+        // Initialize real-time cloud listener
+        try {
+            syncCloudAccounts();
+        } catch (_) {}
+
+        // Forgot password modal helpers
+        function openForgotPasswordModal() {
+            document.getElementById('forgotPasswordModal').classList.remove('hidden');
+            document.getElementById('resetEmail').value = document.getElementById('emailInput').value || '';
+            document.getElementById('resetSuccessMsg').classList.add('hidden');
+        }
+
+        function closeForgotPasswordModal() {
+            document.getElementById('forgotPasswordModal').classList.add('hidden');
+        }
+
+        function handleForgotPassword(e) {
+            e.preventDefault();
+            document.getElementById('resetSuccessMsg').classList.remove('hidden');
+            setTimeout(() => {
+                closeForgotPasswordModal();
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

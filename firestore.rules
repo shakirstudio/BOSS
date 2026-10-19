@@ -1,0 +1,142 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Core Authentication & Role Evaluation Helpers
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function getUserRecord() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+    
+    function isMemberOfWorkspace(wsId) {
+      return isAuthenticated() && (
+        exists(/databases/$(database)/documents/workspaces/$(wsId)/members/$(request.auth.uid)) ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && getUserRecord().workspaceId == wsId)
+      );
+    }
+    
+    function getMemberRole(wsId) {
+      return exists(/databases/$(database)/documents/workspaces/$(wsId)/members/$(request.auth.uid))
+        ? get(/databases/$(database)/documents/workspaces/$(wsId)/members/$(request.auth.uid)).data.role
+        : (exists(/databases/$(database)/documents/users/$(request.auth.uid)) ? getUserRecord().role : 'Employee');
+    }
+    
+    function isAdmin(wsId) {
+      return isMemberOfWorkspace(wsId) && 
+        (getMemberRole(wsId) in ['Admin', 'Owner', 'Super Admin', 'Owner / Admin']);
+    }
+    
+    function isManagerOrAdmin(wsId) {
+      return isMemberOfWorkspace(wsId) && 
+        (getMemberRole(wsId) in ['Admin', 'Owner', 'Super Admin', 'Owner / Admin', 'Manager']);
+    }
+
+    // Direct User Document Mapping (Global User Directory)
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      allow update: if isAuthenticated() && (request.auth.uid == userId || isAdmin(resource.data.workspaceId));
+      allow delete: if false;
+    }
+    
+    // Workspace-Isolated Root & Subcollections
+    match /workspaces/{workspaceId} {
+      allow read: if isMemberOfWorkspace(workspaceId);
+      allow create: if isAuthenticated();
+      allow update: if isAdmin(workspaceId);
+      allow delete: if false;
+      
+      // Workspace Members Directory
+      match /members/{memberId} {
+        allow read: if isMemberOfWorkspace(workspaceId);
+        allow write: if isAdmin(workspaceId) || (isAuthenticated() && request.auth.uid == memberId);
+      }
+      
+      // Employees
+      match /employees/{employeeId} {
+        allow read: if isMemberOfWorkspace(workspaceId);
+        allow create, delete: if isAdmin(workspaceId);
+        allow update: if isAdmin(workspaceId) || (isMemberOfWorkspace(workspaceId) && (request.auth.uid == employeeId || resource.data.email == request.auth.token.email));
+      }
+      
+      // Attendance Tracking
+      match /attendance/{attendanceId} {
+        allow read: if isMemberOfWorkspace(workspaceId);
+        allow create: if isMemberOfWorkspace(workspaceId);
+        allow update, delete: if isManagerOrAdmin(workspaceId);
+      }
+      
+      // Payroll & Salary Ledgers (Admin & Manager Restrictive, Employee Self-Service)
+      match /payroll/{payrollId} {
+        allow read: if isAdmin(workspaceId) || 
+                       (isMemberOfWorkspace(workspaceId) && (resource.data.employeeId == request.auth.uid || resource.data.employeeEmail == request.auth.token.email));
+        allow create, update, delete: if isAdmin(workspaceId);
+      }
+      
+      // CRM & Operations Collections
+      match /leads/{leadId} {
+        allow read, write: if isMemberOfWorkspace(workspaceId);
+      }
+      match /clients/{clientId} {
+        allow read, write: if isMemberOfWorkspace(workspaceId);
+      }
+      match /quotations/{quotationId} {
+        allow read: if isMemberOfWorkspace(workspaceId);
+        allow create, update: if isManagerOrAdmin(workspaceId);
+        allow delete: if isAdmin(workspaceId);
+      }
+      match /bookings/{bookingId} {
+        allow read, write: if isMemberOfWorkspace(workspaceId);
+      }
+      match /shoots/{shootId} {
+        allow read, write: if isMemberOfWorkspace(workspaceId);
+      }
+      match /photo_edits/{editId} {
+        allow read, write: if isMemberOfWorkspace(workspaceId);
+      }
+      match /video_edits/{editId} {
+        allow read, write: if isMemberOfWorkspace(workspaceId);
+      }
+      match /album_projects/{albumId} {
+        allow read, write: if isMemberOfWorkspace(workspaceId);
+      }
+      match /deliveries/{deliveryId} {
+        allow read, write: if isMemberOfWorkspace(workspaceId);
+      }
+      match /payments/{paymentId} {
+        allow read: if isMemberOfWorkspace(workspaceId);
+        allow write: if isManagerOrAdmin(workspaceId);
+      }
+      match /expenses/{expenseId} {
+        allow read, write: if isMemberOfWorkspace(workspaceId);
+      }
+      match /leaves/{leaveId} {
+        allow read, write: if isMemberOfWorkspace(workspaceId);
+      }
+      match /tasks/{taskId} {
+        allow read, write: if isMemberOfWorkspace(workspaceId);
+      }
+      match /notifications/{notifId} {
+        allow read, write: if isMemberOfWorkspace(workspaceId);
+      }
+      match /activity_logs/{logId} {
+        allow read: if isMemberOfWorkspace(workspaceId);
+        allow create: if isMemberOfWorkspace(workspaceId);
+        allow update, delete: if false;
+      }
+      match /subscriptions/{subId} {
+        allow read: if isMemberOfWorkspace(workspaceId);
+        allow write: if isAdmin(workspaceId);
+      }
+      match /storage_drives/{driveId} {
+        allow read, write: if isMemberOfWorkspace(workspaceId);
+      }
+      match /project_files/{fileId} {
+        allow read, write: if isMemberOfWorkspace(workspaceId);
+      }
+    }
+  }
+}
